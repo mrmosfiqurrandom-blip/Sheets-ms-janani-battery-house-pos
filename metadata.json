@@ -1,0 +1,6 @@
+{
+  "name": "ইলেক্ট্রো পাওয়ার পিওএস - IPS & Battery POS",
+  "description": "ইলেকট্রনিক্স, আইপিএস, ব্যাটারি, গাড়ির পার্টস ও স্ক্র্যাপ ব্যাটারি ম্যানেজমেন্ট এবং গুগল শিট ডাটাবেস সিঙ্ক সমৃদ্ধ পিওএস অ্যাপ্লিকেশন।",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

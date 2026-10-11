@@ -85,12 +85,12 @@ export default function App() {
         setSyncStatus({
           success: result.success,
           message: result.message,
-          timestamp: new Date().toLocaleTimeString('bn-BD'),
+          timestamp: new Date().toLocaleTimeString('en-US'),
         });
       } catch (err: any) {
         setSyncStatus({
           success: false,
-          message: 'সিঙ্ক ব্যর্থ হয়েছে: ' + (err.message || 'নেটওয়ার্ক সমস্যা'),
+          message: 'Sync failed: ' + (err.message || 'Network error'),
         });
       } finally {
         setIsSyncing(false);
@@ -128,7 +128,7 @@ export default function App() {
         capacityAh: t.capacityAh,
         buyPrice: t.value,
         status: 'in_stock',
-        notes: t.notes || 'কাস্টমারের পুরাতন ব্যাটারি এক্সচেঞ্জ গ্রহণ।',
+        notes: t.notes || 'Customer old battery trade-in buyback.',
         date: newInvoice.date,
       }));
       updatedScrap = [...newScrapRecords, ...updatedScrap];
@@ -325,7 +325,7 @@ export default function App() {
     const itemsDescription = items
       .map((i) => {
         const p = products.find((prod) => prod.id === i.productId);
-        return `${p?.name || 'পণ্য'} (${i.quantity}টি x ${i.buyPrice}৳)`;
+        return `${p?.name || 'Product'} (${i.quantity} pcs x ${i.buyPrice} Tk)`;
       })
       .join(', ');
 
@@ -344,8 +344,8 @@ export default function App() {
       notes:
         notes ||
         (commDisc > 0
-          ? `মোট বিল: ${rawTotalBill}৳, বিল কমিশন ছাড়: ${commDisc}৳, নিট: ${netBill}৳, পেইড: ${paidAmount}৳`
-          : `ক্রয় বিল: ${rawTotalBill}৳, পেইড: ${paidAmount}৳`),
+          ? `Total Bill: ${rawTotalBill} Tk, Rebate Discount: ${commDisc} Tk, Net: ${netBill} Tk, Paid: ${paidAmount} Tk`
+          : `Purchase Bill: ${rawTotalBill} Tk, Paid: ${paidAmount} Tk`),
     };
 
     const updatedLedger = [newLedgerEntry, ...supplierLedger];
@@ -353,7 +353,7 @@ export default function App() {
     StorageService.saveSupplierLedger(updatedLedger);
 
     if (settings.autoSync) triggerGoogleSheetsSync();
-    alert('ক্রয় ভাউচার সফলভাবে সংরক্ষিত ও স্টক বৃদ্ধি হয়েছে!');
+    alert('Purchase invoice saved and inventory stock updated successfully!');
   };
 
   const handleApplyCommission = (
@@ -366,7 +366,7 @@ export default function App() {
     const sup = suppliers.find((s) => s.id === supplierId);
     if (!sup) return;
 
-    // Deduct commission from the supplier's due balance (সাপ্লায়ার আমার কাছে যত টাকা পায় সেটা থেকে মাইনাস হবে)
+    // Deduct commission from the supplier's due balance
     const newBalance = Math.max(0, sup.currentBalance - commissionAmount);
 
     const updatedSuppliers = suppliers.map((s) =>
@@ -394,8 +394,8 @@ export default function App() {
       commissionAmount,
       commissionRate,
       balance: newBalance,
-      itemsSummary: `${period} পিরিয়ডের অর্জিত বিক্রয় কমিশন / রিবেট ছাড় সমন্বয়`,
-      notes: notes || `মাসিক কমিশন ছাড় ${commissionAmount}৳ বকেয়া থেকে কর্তন করা হয়েছে।`,
+      itemsSummary: `${period} Period Sales Commission / Rebate Adjustment`,
+      notes: notes || `Monthly rebate commission ${commissionAmount} Tk deducted from payable balance.`,
     };
 
     const updatedLedger = [newLedgerEntry, ...supplierLedger];
@@ -404,7 +404,7 @@ export default function App() {
 
     if (settings.autoSync) triggerGoogleSheetsSync();
     alert(
-      `সাপ্লায়ারের বকেয়া থেকে ${commissionAmount.toLocaleString()} টাকা কমিশন ছাড় সফলভাবে সমন্বয় হয়েছে!`
+      `Rebate commission of ${commissionAmount.toLocaleString()} Tk successfully deducted from supplier due balance!`
     );
   };
 
@@ -435,7 +435,7 @@ export default function App() {
       paidAmount: amount,
       balance: newBalance,
       paymentMethod,
-      notes: notes || `বকেয়া বাবদ পরিশোধ (${paymentMethod})`,
+      notes: notes || `Paid towards balance (${paymentMethod})`,
     };
 
     const updatedLedger = [newLedgerEntry, ...supplierLedger];
@@ -443,7 +443,7 @@ export default function App() {
     StorageService.saveSupplierLedger(updatedLedger);
 
     if (settings.autoSync) triggerGoogleSheetsSync();
-    alert('সাপ্লায়ার পেমেন্ট সফলভাবে এন্ট্রি হয়েছে!');
+    alert('Supplier payment recorded successfully!');
   };
 
   // 5. Customer Handlers
@@ -459,7 +459,7 @@ export default function App() {
     );
     setCustomers(updated);
     StorageService.saveCustomers(updated);
-    alert('কাস্টমারের বকেয়া সফলভাবে জমা নেওয়া হয়েছে!');
+    alert('Customer due collected and updated successfully!');
   };
 
   // 6. Expenses Handlers

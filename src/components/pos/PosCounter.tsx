@@ -6,19 +6,13 @@ import {
   Minus,
   Trash2,
   BatteryCharging,
-  Tag,
   ShieldCheck,
   User,
-  Phone,
-  MapPin,
   CheckCircle,
   CreditCard,
   Banknote,
   DollarSign,
-  AlertTriangle,
-  Barcode,
   Layers,
-  Sparkles,
 } from 'lucide-react';
 import {
   Product,
@@ -78,6 +72,8 @@ export const PosCounter: React.FC<PosCounterProps> = ({
   // Completed Invoice for Receipt Printing
   const [lastInvoice, setLastInvoice] = useState<SaleInvoice | null>(null);
 
+  const currency = settings.currency || 'Tk';
+
   // Filtered Products
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
@@ -111,14 +107,13 @@ export const PosCounter: React.FC<PosCounterProps> = ({
     return Math.max(0, net);
   }, [subtotal, totalScrapCredit, discount]);
 
-  // If user hasn't typed a custom paid amount, default to netPayable
   const currentPaid = paidAmount === '' ? netPayable : Number(paidAmount);
   const currentDue = Math.max(0, netPayable - currentPaid);
 
   // Add product to cart
   const handleAddToCart = (product: Product) => {
     if (product.stock <= 0) {
-      alert(`দুঃখিত, "${product.name}" এর স্টক শেষ!`);
+      alert(`Sorry, "${product.name}" is currently out of stock!`);
       return;
     }
 
@@ -127,7 +122,7 @@ export const PosCounter: React.FC<PosCounterProps> = ({
       if (existingIdx >= 0) {
         const existing = prev[existingIdx];
         if (existing.quantity >= product.stock) {
-          alert(`সর্বোচ্চ মজুদ স্টক (${product.stock} টি) কার্টে যুক্ত আছে।`);
+          alert(`Maximum available stock (${product.stock} ${product.unit}) is already in cart.`);
           return prev;
         }
         const updated = [...prev];
@@ -162,7 +157,7 @@ export const PosCounter: React.FC<PosCounterProps> = ({
             const newQty = item.quantity + delta;
             if (newQty <= 0) return null;
             if (newQty > item.product.stock) {
-              alert(`স্টকে কেবল ${item.product.stock} টি পণ্য রয়েছে।`);
+              alert(`Only ${item.product.stock} items are in stock.`);
               return item;
             }
             return {
@@ -177,7 +172,7 @@ export const PosCounter: React.FC<PosCounterProps> = ({
     });
   };
 
-  // Update item serial number (for warranty)
+  // Update item serial number
   const handleUpdateSerial = (productId: string, serial: string) => {
     setCart((prev) =>
       prev.map((item) =>
@@ -210,12 +205,12 @@ export const PosCounter: React.FC<PosCounterProps> = ({
   // Complete Sale
   const handleCheckout = () => {
     if (cart.length === 0) {
-      alert('অনুগ্রহ করে কার্টে অন্তত একটি পণ্য যোগ করুন!');
+      alert('Please add at least one item to the cart!');
       return;
     }
 
     if (!customerName.trim()) {
-      alert('অনুগ্রহ করে ক্রেতার নাম প্রদান করুন।');
+      alert('Please enter customer name to proceed.');
       return;
     }
 
@@ -227,7 +222,7 @@ export const PosCounter: React.FC<PosCounterProps> = ({
       date: now.toISOString().split('T')[0],
       time: now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }),
       customerName: customerName.trim(),
-      customerPhone: customerPhone.trim() || 'ন/এ',
+      customerPhone: customerPhone.trim() || 'N/A',
       customerAddress: customerAddress.trim() || '',
       items: cart,
       subtotal,
@@ -238,7 +233,7 @@ export const PosCounter: React.FC<PosCounterProps> = ({
       paidAmount: currentPaid,
       dueAmount: currentDue,
       paymentMethod,
-      notes: invoiceNotes || (scrapTradeIns.length > 0 ? 'পুরাতন ব্যাটারি এক্সচেঞ্জ সমন্বয়কৃত।' : ''),
+      notes: invoiceNotes || (scrapTradeIns.length > 0 ? 'Old battery trade-in credited.' : ''),
       syncedToGoogleSheet: false,
     };
 
@@ -280,7 +275,7 @@ export const PosCounter: React.FC<PosCounterProps> = ({
               <Search className="w-4 h-4 absolute left-3.5 top-3 text-slate-400" />
               <input
                 type="text"
-                placeholder="পণ্যের নাম, মডেল, ব্র্যান্ড বা বারকোড দিয়ে খুঁজুন..."
+                placeholder="Search products by name, model, brand, or barcode..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-10 pr-4 py-2 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
@@ -290,7 +285,7 @@ export const PosCounter: React.FC<PosCounterProps> = ({
                   onClick={() => setSearchQuery('')}
                   className="absolute right-3 top-2.5 text-xs text-slate-400 hover:text-white"
                 >
-                  ক্লিয়ার
+                  Clear
                 </button>
               )}
             </div>
@@ -302,7 +297,7 @@ export const PosCounter: React.FC<PosCounterProps> = ({
                 onChange={(e) => setSelectedBrand(e.target.value)}
                 className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-500"
               >
-                <option value="all">সব ব্র্যান্ড ({brands.length})</option>
+                <option value="all">All Brands ({brands.length})</option>
                 {brands.map((b) => (
                   <option key={b.id} value={b.name}>
                     {b.name}
@@ -322,7 +317,7 @@ export const PosCounter: React.FC<PosCounterProps> = ({
                   : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
               }`}
             >
-              সব পণ্য ({products.length})
+              All Items ({products.length})
             </button>
             {categories.map((cat) => (
               <button
@@ -345,9 +340,9 @@ export const PosCounter: React.FC<PosCounterProps> = ({
           {filteredProducts.length === 0 ? (
             <div className="h-64 flex flex-col items-center justify-center text-center p-6 text-slate-500">
               <Layers className="w-12 h-12 text-slate-700 mb-2" />
-              <p className="text-sm font-medium text-slate-400">কোনো পণ্য পাওয়া যায়নি!</p>
+              <p className="text-sm font-medium text-slate-400">No products found!</p>
               <p className="text-xs text-slate-600 mt-1">
-                অন্য কোনো নাম বা ফিল্টার নির্বাচন করে চেষ্টা করুন।
+                Try searching with another name or filter.
               </p>
             </div>
           ) : (
@@ -378,15 +373,15 @@ export const PosCounter: React.FC<PosCounterProps> = ({
                         <div className="flex items-center gap-1">
                           {isOutOfStock ? (
                             <span className="text-[10px] bg-rose-500/20 text-rose-400 border border-rose-500/30 px-1.5 py-0.5 rounded font-bold">
-                              স্টক আউট
+                              Out of Stock
                             </span>
                           ) : isLowStock ? (
                             <span className="text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/30 px-1.5 py-0.5 rounded font-bold">
-                              {product.stock} {product.unit} (কম স্টক)
+                              {product.stock} {product.unit} (Low)
                             </span>
                           ) : (
                             <span className="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded font-medium">
-                              মজুদ: {product.stock} {product.unit}
+                              Stock: {product.stock} {product.unit}
                             </span>
                           )}
                         </div>
@@ -398,7 +393,7 @@ export const PosCounter: React.FC<PosCounterProps> = ({
 
                       {product.modelNo && (
                         <p className="text-[11px] text-slate-400 mt-0.5 font-mono">
-                          মডেল: {product.modelNo}
+                          Model: {product.modelNo}
                         </p>
                       )}
 
@@ -413,21 +408,21 @@ export const PosCounter: React.FC<PosCounterProps> = ({
                     {/* Price and Add button */}
                     <div className="mt-3 pt-2.5 border-t border-slate-800/80 flex items-center justify-between">
                       <div>
-                        <span className="text-xs text-slate-400">বিক্রয় মূল্য</span>
+                        <span className="text-xs text-slate-400">Price</span>
                         <div className="text-base font-black text-amber-400">
-                          {product.sellPrice.toLocaleString()} ৳
+                          {product.sellPrice.toLocaleString()} {currency}
                         </div>
                       </div>
 
                       {inCart ? (
                         <span className="bg-amber-500 text-slate-950 text-xs font-bold px-2.5 py-1 rounded-lg">
-                          কার্টে {inCart.quantity}টি
+                          In Cart ({inCart.quantity})
                         </span>
                       ) : (
                         <button
                           disabled={isOutOfStock}
                           className="p-2 bg-slate-800 group-hover:bg-amber-500 group-hover:text-slate-950 text-slate-300 rounded-lg transition"
-                          title="কার্টে যোগ করুন"
+                          title="Add to cart"
                         >
                           <Plus className="w-4 h-4" />
                         </button>
@@ -450,9 +445,9 @@ export const PosCounter: React.FC<PosCounterProps> = ({
               <ShoppingCart className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-bold text-white text-sm sm:text-base">সেলস কার্ট ও ক্যাশ মেমো</h3>
+              <h3 className="font-bold text-white text-sm sm:text-base">Sales Cart & Checkout</h3>
               <p className="text-[11px] text-slate-400">
-                {cart.length} টি আইটেম • {scrapTradeIns.length} টি স্ক্র্যাপ ব্যাটারি
+                {cart.length} item(s) • {scrapTradeIns.length} scrap battery
               </p>
             </div>
           </div>
@@ -460,7 +455,7 @@ export const PosCounter: React.FC<PosCounterProps> = ({
           {cart.length > 0 && (
             <button
               onClick={() => {
-                if (confirm('আপনি কি সম্পূর্ণ কার্ট খালি করতে চান?')) {
+                if (confirm('Are you sure you want to clear the cart?')) {
                   setCart([]);
                   setScrapTradeIns([]);
                 }
@@ -468,7 +463,7 @@ export const PosCounter: React.FC<PosCounterProps> = ({
               className="text-xs text-rose-400 hover:text-rose-300 flex items-center gap-1 hover:underline"
             >
               <Trash2 className="w-3.5 h-3.5" />
-              <span>কার্ট খালি করুন</span>
+              <span>Clear Cart</span>
             </button>
           )}
         </div>
@@ -478,7 +473,7 @@ export const PosCounter: React.FC<PosCounterProps> = ({
           <div className="flex items-center justify-between text-xs font-semibold text-slate-300">
             <span className="flex items-center gap-1.5 text-amber-400">
               <User className="w-3.5 h-3.5" />
-              <span>ক্রেতার বিবরণ (Customer Info)</span>
+              <span>Customer Details</span>
             </span>
             {customers.length > 0 && (
               <select
@@ -488,7 +483,7 @@ export const PosCounter: React.FC<PosCounterProps> = ({
                 }}
                 className="bg-slate-800 text-[11px] text-slate-300 border border-slate-700 rounded px-2 py-0.5 focus:outline-none"
               >
-                <option value="">পূর্বে নিবন্ধিত কাস্টমার নির্বাচন...</option>
+                <option value="">Select registered customer...</option>
                 {customers.map((c) => (
                   <option key={c.id} value={c.id}>
                     {c.name} ({c.phone})
@@ -502,7 +497,7 @@ export const PosCounter: React.FC<PosCounterProps> = ({
             <div>
               <input
                 type="text"
-                placeholder="ক্রেতার নাম *"
+                placeholder="Customer Name *"
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
                 className="w-full bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"
@@ -511,7 +506,7 @@ export const PosCounter: React.FC<PosCounterProps> = ({
             <div>
               <input
                 type="tel"
-                placeholder="মোবাইল নম্বর"
+                placeholder="Phone / Mobile"
                 value={customerPhone}
                 onChange={(e) => setCustomerPhone(e.target.value)}
                 className="w-full bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"
@@ -520,7 +515,7 @@ export const PosCounter: React.FC<PosCounterProps> = ({
           </div>
           <input
             type="text"
-            placeholder="ঠিকানা (ঐচ্ছিক)"
+            placeholder="Address (Optional)"
             value={customerAddress}
             onChange={(e) => setCustomerAddress(e.target.value)}
             className="w-full bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"
@@ -532,8 +527,8 @@ export const PosCounter: React.FC<PosCounterProps> = ({
           {cart.length === 0 ? (
             <div className="h-40 flex flex-col items-center justify-center text-center p-4 text-slate-500 border border-dashed border-slate-800 rounded-xl">
               <ShoppingCart className="w-8 h-8 text-slate-700 mb-1.5" />
-              <p className="text-xs font-medium text-slate-400">কার্ট খালি আছে</p>
-              <p className="text-[11px] text-slate-600">বাম পাশের তালিকা থেকে পণ্য নির্বাচন করুন</p>
+              <p className="text-xs font-medium text-slate-400">Cart is empty</p>
+              <p className="text-[11px] text-slate-600">Select items from the catalog on the left</p>
             </div>
           ) : (
             cart.map((item) => (
@@ -547,13 +542,13 @@ export const PosCounter: React.FC<PosCounterProps> = ({
                       {item.product.name}
                     </h5>
                     <div className="text-[11px] text-amber-400 font-semibold">
-                      {item.unitPrice.toLocaleString()} ৳ / {item.product.unit}
+                      {item.unitPrice.toLocaleString()} {currency} / {item.product.unit}
                     </div>
                   </div>
                   <button
                     onClick={() => handleRemoveItem(item.product.id)}
                     className="p-1 text-slate-400 hover:text-rose-400 transition"
-                    title="মুছুন"
+                    title="Remove item"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
@@ -563,7 +558,7 @@ export const PosCounter: React.FC<PosCounterProps> = ({
                 <div className="flex items-center gap-2">
                   <input
                     type="text"
-                    placeholder="সিরিয়াল নং (যেমন: BAT-12345)"
+                    placeholder="Serial No (e.g. BAT-12345)"
                     value={item.serialNumber || ''}
                     onChange={(e) => handleUpdateSerial(item.product.id, e.target.value)}
                     className="flex-1 bg-slate-900 border border-slate-700 rounded px-2 py-1 text-[11px] text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-500"
@@ -597,19 +592,19 @@ export const PosCounter: React.FC<PosCounterProps> = ({
                   </div>
 
                   <div className="text-xs font-bold text-amber-300">
-                    {item.total.toLocaleString()} ৳
+                    {item.total.toLocaleString()} {currency}
                   </div>
                 </div>
               </div>
             ))
           )}
 
-          {/* Old Battery Trade-in Box (Crucial User Requirement!) */}
+          {/* Old Battery Trade-in Box */}
           <div className="pt-2">
             <div className="flex items-center justify-between mb-1.5">
               <span className="text-xs font-bold text-amber-400 flex items-center gap-1.5">
                 <BatteryCharging className="w-4 h-4" />
-                <span>পুরাতন ব্যাটারি জমা / এক্সচেঞ্জ</span>
+                <span>Old Battery Trade-in Credit</span>
               </span>
               <button
                 type="button"
@@ -617,14 +612,14 @@ export const PosCounter: React.FC<PosCounterProps> = ({
                 className="text-xs bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 px-2 py-1 rounded-lg flex items-center gap-1 font-semibold transition"
               >
                 <Plus className="w-3 h-3" />
-                <span>পুরাতন ব্যাটারি যোগ করুন</span>
+                <span>Add Old Battery</span>
               </button>
             </div>
 
             {scrapTradeIns.length === 0 ? (
               <div className="p-2 bg-slate-800/40 border border-dashed border-slate-800 rounded-lg text-center">
                 <p className="text-[11px] text-slate-400">
-                  কাস্টমার পুরাতন ব্যাটারি জমা দিয়ে ডিসকাউন্ট নিতে চাইলে উপরের বাটনে ক্লিক করুন।
+                  Customer can exchange an old battery to receive credit deducted from payable bill.
                 </p>
               </div>
             ) : (
@@ -639,13 +634,13 @@ export const PosCounter: React.FC<PosCounterProps> = ({
                         {sb.brand} • {sb.capacityAh}
                       </div>
                       <div className="text-[10px] text-amber-400">
-                        স্ক্র্যাপ স্টক মূল্য: -{sb.value.toLocaleString()} ৳ ({sb.condition || 'ডেড ব্যাটারি'})
+                        Scrap Stock Credit: -{sb.value.toLocaleString()} {currency} ({sb.condition || 'Dead Battery'})
                       </div>
                     </div>
                     <button
                       onClick={() => handleRemoveScrapBattery(sb.id)}
                       className="p-1 text-slate-400 hover:text-rose-400"
-                      title="মুছুন"
+                      title="Remove"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
@@ -661,19 +656,19 @@ export const PosCounter: React.FC<PosCounterProps> = ({
           {/* Summary Breakdown */}
           <div className="space-y-1 text-xs">
             <div className="flex justify-between text-slate-400">
-              <span>নতুন পণ্যের বিক্রয় মূল্য (Subtotal):</span>
-              <span className="font-semibold text-white">{subtotal.toLocaleString()} ৳</span>
+              <span>Product Subtotal:</span>
+              <span className="font-semibold text-white">{subtotal.toLocaleString()} {currency}</span>
             </div>
 
             {totalScrapCredit > 0 && (
               <div className="flex justify-between text-amber-400 font-semibold bg-amber-500/10 px-2 py-0.5 rounded">
-                <span>(-) পুরাতন ব্যাটারি বাবদ ছাড় (Trade-in):</span>
-                <span>-{totalScrapCredit.toLocaleString()} ৳</span>
+                <span>(-) Old Battery Trade-in Credit:</span>
+                <span>-{totalScrapCredit.toLocaleString()} {currency}</span>
               </div>
             )}
 
             <div className="flex items-center justify-between text-slate-300">
-              <span>(-) বিশেষ ছাড় (Cash Discount):</span>
+              <span>(-) Cash Discount:</span>
               <div className="w-24">
                 <input
                   type="number"
@@ -687,22 +682,22 @@ export const PosCounter: React.FC<PosCounterProps> = ({
             </div>
 
             <div className="flex justify-between text-sm font-black text-amber-300 pt-1 border-t border-slate-800">
-              <span>নিট প্রদেয় বিল (Net Payable):</span>
-              <span>{netPayable.toLocaleString()} ৳</span>
+              <span>Net Payable Bill:</span>
+              <span>{netPayable.toLocaleString()} {currency}</span>
             </div>
           </div>
 
           {/* Payment Method Selector */}
           <div className="pt-1">
-            <div className="text-[11px] font-semibold text-slate-400 mb-1">পেমেন্ট মেথড:</div>
+            <div className="text-[11px] font-semibold text-slate-400 mb-1">Payment Method:</div>
             <div className="grid grid-cols-3 sm:grid-cols-6 gap-1">
               {[
-                { id: 'cash', label: 'ক্যাশ', icon: Banknote },
-                { id: 'bkash', label: 'বিকাশ', icon: CreditCard },
-                { id: 'nagad', label: 'নগদ', icon: CreditCard },
-                { id: 'card', label: 'কার্ড', icon: CreditCard },
-                { id: 'bank', label: 'ব্যাংক', icon: CreditCard },
-                { id: 'due', label: 'বাকি', icon: DollarSign },
+                { id: 'cash', label: 'Cash', icon: Banknote },
+                { id: 'bkash', label: 'bKash', icon: CreditCard },
+                { id: 'nagad', label: 'Nagad', icon: CreditCard },
+                { id: 'card', label: 'Card', icon: CreditCard },
+                { id: 'bank', label: 'Bank', icon: CreditCard },
+                { id: 'due', label: 'Due', icon: DollarSign },
               ].map((m) => {
                 const isSelected = paymentMethod === m.id;
                 return (
@@ -731,7 +726,7 @@ export const PosCounter: React.FC<PosCounterProps> = ({
           {/* Paid & Due Inputs */}
           <div className="grid grid-cols-2 gap-2 text-xs">
             <div>
-              <label className="block text-[11px] text-slate-400 mb-0.5">পরিশোধ (Paid Amount)</label>
+              <label className="block text-[11px] text-slate-400 mb-0.5">Paid Amount</label>
               <input
                 type="number"
                 min="0"
@@ -744,13 +739,13 @@ export const PosCounter: React.FC<PosCounterProps> = ({
               />
             </div>
             <div>
-              <label className="block text-[11px] text-slate-400 mb-0.5">বকেয়া (Due)</label>
+              <label className="block text-[11px] text-slate-400 mb-0.5">Balance Due</label>
               <div
                 className={`w-full px-2.5 py-1.5 rounded-lg text-xs font-bold ${
                   currentDue > 0 ? 'bg-rose-950/60 text-rose-300 border border-rose-800' : 'bg-slate-800 text-slate-400'
                 }`}
               >
-                {currentDue.toLocaleString()} ৳
+                {currentDue.toLocaleString()} {currency}
               </div>
             </div>
           </div>
@@ -758,7 +753,7 @@ export const PosCounter: React.FC<PosCounterProps> = ({
           {/* Notes */}
           <input
             type="text"
-            placeholder="ইনভয়েস নোট বা বিশেষ বিবরণ..."
+            placeholder="Invoice remarks / special instructions..."
             value={invoiceNotes}
             onChange={(e) => setInvoiceNotes(e.target.value)}
             className="w-full bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1 text-[11px] text-slate-200 placeholder-slate-500 focus:outline-none"
@@ -771,7 +766,7 @@ export const PosCounter: React.FC<PosCounterProps> = ({
             className="w-full py-3 bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-sm rounded-xl shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <CheckCircle className="w-5 h-5 fill-slate-950 text-amber-400" />
-            <span>বিক্রি সম্পন্ন করুন ও রিসিট প্রিন্ট করুন</span>
+            <span>Complete Sale & Print Receipt</span>
           </button>
         </div>
       </div>

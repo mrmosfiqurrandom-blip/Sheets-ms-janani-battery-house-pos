@@ -64,14 +64,14 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
   // Form State
   const [pName, setPName] = useState('');
   const [pBarcode, setPBarcode] = useState('');
-  const [pBrand, setPBrand] = useState(brands[0]?.name || 'হ্যামকো (Hamko)');
-  const [pCategory, setPCategory] = useState(categories[0]?.name || 'আইপিএস মেশিন (IPS Inverter)');
+  const [pBrand, setPBrand] = useState(brands[0]?.name || 'Hamko');
+  const [pCategory, setPCategory] = useState(categories[0]?.name || 'IPS Inverters & Machines');
   const [pUnit, setPUnit] = useState('Pcs');
   const [pBuyPrice, setPBuyPrice] = useState<number | ''>('');
   const [pSellPrice, setPSellPrice] = useState<number | ''>('');
   const [pStock, setPStock] = useState<number | ''>(5);
   const [pMinAlert, setPMinAlert] = useState<number | ''>(2);
-  const [pWarranty, setPWarranty] = useState('২৪ মাস');
+  const [pWarranty, setPWarranty] = useState('24 Months');
   const [pCapacityAh, setPCapacityAh] = useState('');
   const [pModelNo, setPModelNo] = useState('');
   const [pDescription, setPDescription] = useState('');
@@ -110,14 +110,14 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
     setEditingProduct(null);
     setPName('');
     setPBarcode('IPS-' + Math.floor(1000 + Math.random() * 9000));
-    setPBrand(brands[0]?.name || 'হ্যামকো (Hamko)');
-    setPCategory(categories[0]?.name || 'আইপিএস টিউবুলার ব্যাটারি');
+    setPBrand(brands[0]?.name || 'Hamko');
+    setPCategory(categories[0]?.name || 'IPS Tubular Batteries');
     setPUnit('Pcs');
     setPBuyPrice('');
     setPSellPrice('');
     setPStock(5);
     setPMinAlert(2);
-    setPWarranty('২৪ মাস');
+    setPWarranty('24 Months');
     setPCapacityAh('');
     setPModelNo('');
     setPDescription('');
@@ -145,7 +145,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
   const handleSaveProduct = (e: React.FormEvent) => {
     e.preventDefault();
     if (!pName.trim()) {
-      alert('পণ্যের নাম প্রদান করুন');
+      alert('Please enter a product name');
       return;
     }
     const buy = Number(pBuyPrice) || 0;
@@ -154,7 +154,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
     const minAlert = Number(pMinAlert) || 1;
 
     if (sell < buy) {
-      if (!confirm('বিক্রয় মূল্য ক্রয়মূল্যের চেয়ে কম! আপনি কি নিশ্চিতভাবে সেভ করতে চান?')) {
+      if (!confirm('Selling price is lower than purchase price! Do you want to proceed and save?')) {
         return;
       }
     }
@@ -227,10 +227,10 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
             </div>
             <div>
               <h2 className="text-xl sm:text-2xl font-black text-white">
-                পণ্য ও স্টক ইনভেন্টরি
+                Products & Inventory
               </h2>
               <p className="text-xs sm:text-sm text-slate-400">
-                দোকানের পণ্য, মডেল, ব্রান্ড, বিক্রয়মূল্য ও মজুদ স্টকের সঠিক হিসাব
+                Manage shop products, models, brands, prices, warranties, and live stock levels
               </p>
             </div>
           </div>
@@ -242,7 +242,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
             className="flex-1 sm:flex-none px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold rounded-xl text-xs sm:text-sm flex items-center justify-center gap-1.5 transition"
           >
             <Tags className="w-4 h-4 text-amber-400" />
-            <span>ব্র্যান্ড, ক্যাটাগরি ও ইউনিট</span>
+            <span>Brands, Categories & Units</span>
           </button>
 
           <button
@@ -250,7 +250,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
             className="flex-1 sm:flex-none px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-lg shadow-amber-500/20 transition"
           >
             <Plus className="w-4 h-4" />
-            <span>নতুন পণ্য যোগ করুন</span>
+            <span>Add New Product</span>
           </button>
         </div>
       </div>
@@ -259,9 +259,9 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between">
           <div>
-            <span className="text-xs text-slate-400 font-medium">মোট পণ্য আইটেম</span>
-            <div className="text-2xl font-black text-white mt-1">{products.length} টি</div>
-            <span className="text-xs text-slate-500">মোট মজুদ: {totalStockQty} পিস/সেট</span>
+            <span className="text-xs text-slate-400 font-medium">Total Product Items</span>
+            <div className="text-2xl font-black text-white mt-1">{products.length} Items</div>
+            <span className="text-xs text-slate-500">Total Stock Qty: {totalStockQty} Pcs/Units</span>
           </div>
           <div className="p-3 bg-slate-800 text-amber-400 rounded-xl">
             <Package className="w-6 h-6" />
@@ -270,11 +270,11 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
 
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between">
           <div>
-            <span className="text-xs text-slate-400 font-medium">মজুদ স্টকের ক্রয়মূল্য</span>
+            <span className="text-xs text-slate-400 font-medium">Inventory Buy Valuation</span>
             <div className="text-2xl font-black text-blue-400 mt-1">
-              {totalBuyValuation.toLocaleString()} ৳
+              {totalBuyValuation.toLocaleString()} Tk
             </div>
-            <span className="text-xs text-slate-500">গুদামে বিনিয়োগকৃত মূলধন</span>
+            <span className="text-xs text-slate-500">Capital invested in stock</span>
           </div>
           <div className="p-3 bg-blue-500/10 text-blue-400 rounded-xl border border-blue-500/20">
             <DollarSign className="w-6 h-6" />
@@ -283,12 +283,12 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
 
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between">
           <div>
-            <span className="text-xs text-slate-400 font-medium">প্রত্যাশিত বিক্রয়মূল্য</span>
+            <span className="text-xs text-slate-400 font-medium">Expected Retail Value</span>
             <div className="text-2xl font-black text-emerald-400 mt-1">
-              {totalSellValuation.toLocaleString()} ৳
+              {totalSellValuation.toLocaleString()} Tk
             </div>
             <span className="text-xs text-slate-500">
-              সম্ভাব্য লাভ: +{(totalSellValuation - totalBuyValuation).toLocaleString()} ৳
+              Potential Profit: +{(totalSellValuation - totalBuyValuation).toLocaleString()} Tk
             </span>
           </div>
           <div className="p-3 bg-emerald-500/10 text-emerald-400 rounded-xl border border-emerald-500/20">
@@ -298,11 +298,11 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
 
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between">
           <div>
-            <span className="text-xs text-slate-400 font-medium">লো স্টক সতর্কতা</span>
+            <span className="text-xs text-slate-400 font-medium">Low Stock Alerts</span>
             <div className="text-2xl font-black text-rose-400 mt-1">
-              {lowStockCount} টি
+              {lowStockCount} Items
             </div>
-            <span className="text-xs text-slate-500">রিঅর্ডার লেভেলে পৌঁছেছে</span>
+            <span className="text-xs text-slate-500">Reached reorder alert level</span>
           </div>
           <div className="p-3 bg-rose-500/10 text-rose-400 rounded-xl border border-rose-500/20">
             <AlertTriangle className="w-6 h-6" />
@@ -317,7 +317,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
           <Search className="w-4 h-4 absolute left-3 top-2.5 text-slate-400" />
           <input
             type="text"
-            placeholder="নাম, বারকোড, মডেল বা ব্র্যান্ড দিয়ে খুঁজুন..."
+            placeholder="Search by name, barcode, model or brand..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-amber-500"
@@ -332,7 +332,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
             onChange={(e) => setSelectedBrand(e.target.value)}
             className="bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-500"
           >
-            <option value="all">সব ব্র্যান্ড</option>
+            <option value="all">All Brands</option>
             {brands.map((b) => (
               <option key={b.id} value={b.name}>
                 {b.name}
@@ -346,7 +346,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
             onChange={(e) => setSelectedCategory(e.target.value)}
             className="bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-500"
           >
-            <option value="all">সব ক্যাটাগরি</option>
+            <option value="all">All Categories</option>
             {categories.map((c) => (
               <option key={c.id} value={c.name}>
                 {c.name}
@@ -360,9 +360,9 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
             onChange={(e) => setStockFilter(e.target.value as any)}
             className="bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-500"
           >
-            <option value="all">সব স্টক স্ট্যাটাস</option>
-            <option value="low">কম স্টক (Low Stock)</option>
-            <option value="out">স্টক শেষ (Out of Stock)</option>
+            <option value="all">All Stock Status</option>
+            <option value="low">Low Stock Only</option>
+            <option value="out">Out of Stock</option>
           </select>
         </div>
       </div>
@@ -373,22 +373,22 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
           <table className="w-full text-left text-xs">
             <thead className="bg-slate-800/90 text-slate-300 font-semibold border-b border-slate-700">
               <tr>
-                <th className="py-3 px-4">বারকোড / কোড</th>
-                <th className="py-3 px-4">পণ্যের নাম ও বিবরণ</th>
-                <th className="py-3 px-4">ব্র্যান্ড ও ক্যাটাগরি</th>
-                <th className="py-3 px-4 text-right">ক্রয়মূল্য</th>
-                <th className="py-3 px-4 text-right">বিক্রয়মূল্য</th>
-                <th className="py-3 px-4 text-center">লাভ মার্জিন</th>
-                <th className="py-3 px-4 text-center">মজুদ স্টক</th>
-                <th className="py-3 px-4">ওয়ারেন্টি</th>
-                <th className="py-3 px-4 text-center">অ্যাকশন</th>
+                <th className="py-3 px-4">Barcode / SKU</th>
+                <th className="py-3 px-4">Product Name & Spec</th>
+                <th className="py-3 px-4">Brand & Category</th>
+                <th className="py-3 px-4 text-right">Buy Price</th>
+                <th className="py-3 px-4 text-right">Sell Price</th>
+                <th className="py-3 px-4 text-center">Margin</th>
+                <th className="py-3 px-4 text-center">Stock</th>
+                <th className="py-3 px-4">Warranty</th>
+                <th className="py-3 px-4 text-center">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800">
               {filteredProducts.length === 0 ? (
                 <tr>
                   <td colSpan={9} className="py-12 text-center text-slate-500">
-                    কোনো পণ্য পাওয়া যায়নি।
+                    No products found matching criteria.
                   </td>
                 </tr>
               ) : (
@@ -408,12 +408,12 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
                         <div className="font-bold text-white text-sm">{p.name}</div>
                         {p.modelNo && (
                           <div className="text-[11px] text-slate-400 font-mono">
-                            মডেল: {p.modelNo}
+                            Model: {p.modelNo}
                           </div>
                         )}
                         {p.capacityAh && (
                           <div className="text-[10px] text-amber-400 font-bold">
-                            ক্যাপাসিটি: {p.capacityAh}
+                            Capacity: {p.capacityAh}
                           </div>
                         )}
                       </td>
@@ -422,14 +422,14 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
                         <div className="text-[11px] text-slate-400">{p.category}</div>
                       </td>
                       <td className="py-3 px-4 text-right font-medium text-slate-400">
-                        {p.buyPrice.toLocaleString()} ৳
+                        {p.buyPrice.toLocaleString()} Tk
                       </td>
                       <td className="py-3 px-4 text-right font-black text-amber-300 text-sm">
-                        {p.sellPrice.toLocaleString()} ৳
+                        {p.sellPrice.toLocaleString()} Tk
                       </td>
                       <td className="py-3 px-4 text-center">
                         <span className="inline-block px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                          +{marginPct}% ({profit.toLocaleString()}৳)
+                          +{marginPct}% ({profit.toLocaleString()} Tk)
                         </span>
                       </td>
                       <td className="py-3 px-4 text-center">
@@ -446,12 +446,12 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
                                 ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
                                 : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
                             }`}
-                            title="স্টক দ্রুত পরিবর্তন করতে ক্লিক করুন"
+                            title="Click to quickly adjust stock"
                           >
                             {p.stock} {p.unit}
                           </button>
                           {isLowStock && !isOutOfStock && (
-                            <span className="text-[10px] text-amber-400 mt-0.5">লো স্টক!</span>
+                            <span className="text-[10px] text-amber-400 mt-0.5">Low Stock!</span>
                           )}
                         </div>
                       </td>
@@ -462,7 +462,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
                             <span>{p.warranty}</span>
                           </div>
                         ) : (
-                          <span className="text-slate-500 text-[11px]">নেই</span>
+                          <span className="text-slate-500 text-[11px]">N/A</span>
                         )}
                       </td>
                       <td className="py-3 px-4 text-center">
@@ -470,18 +470,18 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
                           <button
                             onClick={() => handleOpenEditModal(p)}
                             className="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-lg transition"
-                            title="এডিট করুন"
+                            title="Edit product"
                           >
                             <Edit className="w-3.5 h-3.5" />
                           </button>
                           <button
                             onClick={() => {
-                              if (confirm(`আপনি কি "${p.name}" পণ্যটি মুছে ফেলতে চান?`)) {
+                              if (confirm(`Are you sure you want to delete "${p.name}"?`)) {
                                 onDeleteProduct(p.id);
                               }
                             }}
                             className="p-1.5 bg-slate-800 hover:bg-rose-950 text-slate-400 hover:text-rose-400 rounded-lg transition"
-                            title="মুছুন"
+                            title="Delete product"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
@@ -502,7 +502,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
           <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
             <div className="bg-slate-800 p-4 border-b border-slate-700/80 flex items-center justify-between">
               <h3 className="font-bold text-white text-base">
-                {editingProduct ? 'পণ্য সংশোধন করুন' : 'নতুন পণ্য যোগ করুন'}
+                {editingProduct ? 'Edit Product' : 'Add New Product'}
               </h3>
               <button
                 onClick={() => setIsProductModalOpen(false)}
@@ -516,12 +516,12 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
               {/* Product Name */}
               <div>
                 <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  পণ্যের সম্পূর্ণ নাম *
+                  Full Product Name *
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="যেমন: হ্যামকো HPD-200Ah ডিপ সাইকেল টিউবুলার ব্যাটারি"
+                  placeholder="e.g. Hamko HPD-200Ah Deep Cycle Tubular Battery"
                   value={pName}
                   onChange={(e) => setPName(e.target.value)}
                   className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500"
@@ -532,11 +532,11 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 mb-1">
-                    বারকোড / SKU কোড
+                    Barcode / SKU Code
                   </label>
                   <input
                     type="text"
-                    placeholder="যেমন: BAT-HAM-200"
+                    placeholder="e.g. BAT-HAM-200"
                     value={pBarcode}
                     onChange={(e) => setPBarcode(e.target.value)}
                     className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-amber-500"
@@ -544,11 +544,11 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 mb-1">
-                    মডেল নম্বর / স্পেসিফিকেশন
+                    Model Number / Specification
                   </label>
                   <input
                     type="text"
-                    placeholder="যেমন: Eco Volt 1050VA"
+                    placeholder="e.g. Eco Volt 1050VA"
                     value={pModelNo}
                     onChange={(e) => setPModelNo(e.target.value)}
                     className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
@@ -560,7 +560,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 mb-1">
-                    ব্র্যান্ড *
+                    Brand *
                   </label>
                   <select
                     value={pBrand}
@@ -577,7 +577,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
 
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 mb-1">
-                    ক্যাটাগরি *
+                    Category *
                   </label>
                   <select
                     value={pCategory}
@@ -594,7 +594,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
 
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 mb-1">
-                    পরিমাপের ইউনিট *
+                    Unit of Measure *
                   </label>
                   <select
                     value={pUnit}
@@ -614,13 +614,13 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 mb-1">
-                    ক্রয়মূল্য (টাকা) *
+                    Purchase Price (Tk) *
                   </label>
                   <input
                     type="number"
                     min="0"
                     required
-                    placeholder="যেমন: 22000"
+                    placeholder="e.g. 22000"
                     value={pBuyPrice}
                     onChange={(e) =>
                       setPBuyPrice(e.target.value === '' ? '' : Number(e.target.value))
@@ -631,13 +631,13 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
 
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 mb-1">
-                    বিক্রয়মূল্য (টাকা) *
+                    Selling Price (Tk) *
                   </label>
                   <input
                     type="number"
                     min="0"
                     required
-                    placeholder="যেমন: 25500"
+                    placeholder="e.g. 25500"
                     value={pSellPrice}
                     onChange={(e) =>
                       setPSellPrice(e.target.value === '' ? '' : Number(e.target.value))
@@ -651,7 +651,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 mb-1">
-                    বর্তমান মজুদ স্টক *
+                    Current In-Stock *
                   </label>
                   <input
                     type="number"
@@ -667,7 +667,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
 
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 mb-1">
-                    রিঅর্ডার সতর্কবার্তা লেভেল
+                    Reorder Alert Level
                   </label>
                   <input
                     type="number"
@@ -682,11 +682,11 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
 
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 mb-1">
-                    ওয়ারেন্টি মেয়াদ
+                    Warranty Period
                   </label>
                   <input
                     type="text"
-                    placeholder="যেমন: ২৪ মাস বা ১৮ মাস"
+                    placeholder="e.g. 24 Months or 18 Months"
                     value={pWarranty}
                     onChange={(e) => setPWarranty(e.target.value)}
                     className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
@@ -698,11 +698,11 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 mb-1">
-                    ব্যাটারি ক্যাপাসিটি (যদি প্রযোজ্য হয়)
+                    Battery Capacity Ah (if applicable)
                   </label>
                   <input
                     type="text"
-                    placeholder="যেমন: 200Ah বা 150Ah"
+                    placeholder="e.g. 200Ah or 150Ah"
                     value={pCapacityAh}
                     onChange={(e) => setPCapacityAh(e.target.value)}
                     className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
@@ -711,11 +711,11 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
 
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 mb-1">
-                    সংক্ষিপ্ত নোট / বিবরণ
+                    Short Note / Description
                   </label>
                   <input
                     type="text"
-                    placeholder="যেমন: হেভি ডিউটি টিউবুলার প্লেট"
+                    placeholder="e.g. Heavy duty tubular plates"
                     value={pDescription}
                     onChange={(e) => setPDescription(e.target.value)}
                     className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
@@ -730,13 +730,13 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
                   onClick={() => setIsProductModalOpen(false)}
                   className="px-4 py-2 text-xs text-slate-400 hover:text-white"
                 >
-                  বাতিল
+                  Cancel
                 </button>
                 <button
                   type="submit"
                   className="px-5 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl transition"
                 >
-                  {editingProduct ? 'আপডেট নিশ্চিত করুন' : 'পণ্য যোগ করুন'}
+                  {editingProduct ? 'Save Changes' : 'Save Product'}
                 </button>
               </div>
             </form>
@@ -749,7 +749,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs">
           <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-sm shadow-2xl p-5 space-y-4">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="font-bold text-white text-base">দ্রুত স্টক সমন্বয়</h3>
+              <h3 className="font-bold text-white text-base">Quick Stock Adjustment</h3>
               <button
                 onClick={() => setStockAdjustProduct(null)}
                 className="text-slate-400 hover:text-white"
@@ -761,19 +761,19 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
             <div className="text-xs text-slate-300 space-y-1">
               <div className="font-bold text-amber-300">{stockAdjustProduct.name}</div>
               <div>
-                বর্তমান স্টক: <strong>{stockAdjustProduct.stock} {stockAdjustProduct.unit}</strong>
+                Current Stock: <strong>{stockAdjustProduct.stock} {stockAdjustProduct.unit}</strong>
               </div>
             </div>
 
             <form onSubmit={handleApplyStockAdjust} className="space-y-3">
               <div>
                 <label className="block text-xs font-semibold text-slate-400 mb-1">
-                  যোগ বা বিয়োগের পরিমাণ (+ বা -)
+                  Quantity to Add or Deduct (+ or -)
                 </label>
                 <input
                   type="number"
                   required
-                  placeholder="যেমন: +5 বা -2"
+                  placeholder="e.g. +5 or -2"
                   value={adjustAmount}
                   onChange={(e) =>
                     setAdjustAmount(e.target.value === '' ? '' : Number(e.target.value))
@@ -781,7 +781,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
                   className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm font-bold text-white focus:outline-none focus:border-amber-500"
                 />
                 <p className="text-[11px] text-slate-500 mt-1">
-                  উদাহরণ: ৫টি নতুন পণ্য আসলে 5 লিখুন, আর নষ্ট হলে -1 লিখুন।
+                  Example: Enter +5 for incoming inventory, or -1 for damaged item.
                 </p>
               </div>
 
@@ -791,13 +791,13 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
                   onClick={() => setStockAdjustProduct(null)}
                   className="px-4 py-1.5 text-xs text-slate-400"
                 >
-                  বাতিল
+                  Cancel
                 </button>
                 <button
                   type="submit"
                   className="px-4 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl"
                 >
-                  স্টক আপডেট
+                  Update Stock
                 </button>
               </div>
             </form>

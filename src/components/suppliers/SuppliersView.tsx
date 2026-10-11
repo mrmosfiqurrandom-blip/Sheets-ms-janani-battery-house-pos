@@ -95,7 +95,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
   // Payment Form
   const [paySupplierId, setPaySupplierId] = useState(suppliers[0]?.id || '');
   const [payAmount, setPayAmount] = useState<number | ''>('');
-  const [payMethod, setPayMethod] = useState('নগদ ক্যাশ');
+  const [payMethod, setPayMethod] = useState('Cash');
   const [payNotes, setPayNotes] = useState('');
 
   // Monthly Commission / Rebate Adjustment Form
@@ -104,7 +104,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
   const [commPercentage, setCommPercentage] = useState<number | ''>(3);
   const [commFixedAmount, setCommFixedAmount] = useState<number | ''>('');
   const [commPeriod, setCommPeriod] = useState(
-    new Date().toLocaleDateString('bn-BD', { month: 'long', year: 'numeric' })
+    new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
   );
   const [commNotes, setCommNotes] = useState('');
 
@@ -221,11 +221,11 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
   const handleSavePurchase = (e: React.FormEvent) => {
     e.preventDefault();
     if (!purSupplierId) {
-      alert('সাপ্লায়ার নির্বাচন করুন');
+      alert('Please select a supplier');
       return;
     }
     if (purItems.length === 0 || rawPurchaseTotal <= 0) {
-      alert('পণ্য নির্বাচন ও সঠিক ক্রয়মূল্য প্রদান করুন');
+      alert('Please select products and valid purchase prices');
       return;
     }
 
@@ -249,7 +249,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
     e.preventDefault();
     const amt = Number(payAmount) || 0;
     if (amt <= 0) {
-      alert('পরিশোধের সঠিক পরিমাণ প্রদান করুন');
+      alert('Please enter a valid payment amount');
       return;
     }
 
@@ -263,7 +263,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
     e.preventDefault();
     if (!targetSupplier) return;
     if (calculatedCommissionAmount <= 0) {
-      alert('সঠিক কমিশন ছাড়ের পরিমাণ নির্ধারণ করুন');
+      alert('Please specify a valid commission rebate amount');
       return;
     }
 
@@ -274,7 +274,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
       rate,
       commPeriod,
       commNotes ||
-        `${commPeriod} মাসের জন্য ${rate ? `${rate}% হারে ` : ''}কমিশন ছাড় বকেয়া থেকে কর্তন।`
+        `Monthly rebate discount of ${calculatedCommissionAmount.toLocaleString()} Tk deducted from payables (${commPeriod}).`
     );
 
     setIsCommissionModalOpen(false);
@@ -302,23 +302,23 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
             </div>
             <div>
               <h2 className="text-xl sm:text-2xl font-black text-white">
-                সাপ্লায়ার, লেজার ও মাসিক কমিশন সমন্বয়
+                Suppliers, Ledger & Monthly Commission Rebates
               </h2>
               <p className="text-xs sm:text-sm text-slate-400">
-                পণ্য সরবরাহকারী, ক্রয় ভাউচার, মাসিক কমিশন ছাড় (Rebate) এবং বকেয়া লেজার
+                Track supplier purchases, payment vouchers, monthly target commission discounts, and real-time dues
               </p>
             </div>
           </div>
         </div>
 
         <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-          {/* Monthly Commission Button (User Requested Feature) */}
+          {/* Monthly Commission Button */}
           <button
             onClick={() => setIsCommissionModalOpen(true)}
             className="px-3.5 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold rounded-xl text-xs sm:text-sm flex items-center gap-1.5 shadow-lg shadow-emerald-600/20 transition"
           >
             <Percent className="w-4 h-4" />
-            <span>মাসিক কমিশন ছাড় সমন্বয়</span>
+            <span>Apply Monthly Commission</span>
           </button>
 
           <button
@@ -326,7 +326,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
             className="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold rounded-xl text-xs sm:text-sm flex items-center gap-1.5 transition"
           >
             <DollarSign className="w-4 h-4 text-emerald-400" />
-            <span>বকেয়া পরিশোধ</span>
+            <span>Pay Supplier Due</span>
           </button>
 
           <button
@@ -334,7 +334,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
             className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-xs sm:text-sm flex items-center gap-1.5 shadow-lg shadow-amber-500/20 transition"
           >
             <Plus className="w-4 h-4" />
-            <span>পণ্য ক্রয় ভাউচার</span>
+            <span>Purchase Invoice</span>
           </button>
 
           <button
@@ -342,7 +342,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
             className="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold rounded-xl text-xs sm:text-sm flex items-center gap-1.5 transition"
           >
             <Plus className="w-4 h-4 text-amber-400" />
-            <span>নতুন সাপ্লায়ার</span>
+            <span>Add Supplier</span>
           </button>
         </div>
       </div>
@@ -351,9 +351,9 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between">
           <div>
-            <span className="text-xs text-slate-400 font-medium">নিবন্ধিত সাপ্লায়ার</span>
-            <div className="text-2xl font-black text-white mt-1">{suppliers.length} টি</div>
-            <span className="text-xs text-slate-500">কোম্পানি ও ডিলারশিপ</span>
+            <span className="text-xs text-slate-400 font-medium">Registered Suppliers</span>
+            <div className="text-2xl font-black text-white mt-1">{suppliers.length} Suppliers</div>
+            <span className="text-xs text-slate-500">Companies & Dealerships</span>
           </div>
           <div className="p-3 bg-slate-800 text-amber-400 rounded-xl">
             <Truck className="w-6 h-6" />
@@ -362,11 +362,11 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
 
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between">
           <div>
-            <span className="text-xs text-slate-400 font-medium">সাপ্লায়ারদের মোট পাওনা (বকেয়া)</span>
+            <span className="text-xs text-slate-400 font-medium">Total Supplier Payables (Due)</span>
             <div className="text-2xl font-black text-rose-400 mt-1">
-              {totalDueToSuppliers.toLocaleString()} ৳
+              {totalDueToSuppliers.toLocaleString()} Tk
             </div>
-            <span className="text-xs text-slate-500">কমিশন সমন্বয়ের পর নিট দেনা</span>
+            <span className="text-xs text-slate-500">Net outstanding balance</span>
           </div>
           <div className="p-3 bg-rose-500/10 text-rose-400 rounded-xl border border-rose-500/20">
             <DollarSign className="w-6 h-6" />
@@ -376,11 +376,11 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
         {/* Total Commission Earned Card */}
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between">
           <div>
-            <span className="text-xs text-slate-400 font-medium">মোট অর্জিত কমিশন ছাড়</span>
+            <span className="text-xs text-slate-400 font-medium">Total Earned Commission / Rebates</span>
             <div className="text-2xl font-black text-emerald-400 mt-1">
-              {totalCommissionAllSuppliers.toLocaleString()} ৳
+              {totalCommissionAllSuppliers.toLocaleString()} Tk
             </div>
-            <span className="text-xs text-slate-500">মাসিক রিবেট থেকে সাশ্রয়</span>
+            <span className="text-xs text-slate-500">Savings from monthly rebate targets</span>
           </div>
           <div className="p-3 bg-emerald-500/10 text-emerald-400 rounded-xl border border-emerald-500/20">
             <Percent className="w-6 h-6" />
@@ -389,11 +389,11 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
 
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between">
           <div>
-            <span className="text-xs text-slate-400 font-medium">লেজার ট্রানজ্যাকশন</span>
+            <span className="text-xs text-slate-400 font-medium">Ledger Transactions</span>
             <div className="text-2xl font-black text-blue-400 mt-1">
-              {supplierLedger.length} টি
+              {supplierLedger.length} Records
             </div>
-            <span className="text-xs text-slate-500">ক্রয়, পেমেন্ট ও কমিশন সমন্বয়</span>
+            <span className="text-xs text-slate-500">Purchases, payments & rebates</span>
           </div>
           <div className="p-3 bg-blue-500/10 text-blue-400 rounded-xl border border-blue-500/20">
             <FileText className="w-6 h-6" />
@@ -405,9 +405,9 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
       <div className="p-4 bg-gradient-to-r from-emerald-950/60 to-slate-900 border border-emerald-800/40 rounded-2xl text-xs text-emerald-200 flex items-start gap-3">
         <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
         <div className="space-y-1">
-          <strong className="text-white text-sm">সাপ্লায়ার মাসিক কমিশন ও হিসাবের নির্ভুলতা:</strong>
+          <strong className="text-white text-sm">Monthly Supplier Commission & Accurate Ledger Balancing:</strong>
           <p className="text-emerald-300/90 leading-relaxed">
-            সাপ্লায়ার থেকে নির্দিষ্ট পরিমাণ (যেমন ১ লাখ টাকা) পণ্য কিনলে যে মাসিক কমিশন বা ছাড় পাওয়া যায়, তা <strong>"মাসিক কমিশন ছাড় সমন্বয়"</strong> বাটনের মাধ্যমে সরাসরি সাপ্লায়ারের বকেয়া থেকে মাইনাস করতে পারবেন। এটি লেজার শিটে আলাদা <em>'মাসিক কমিশন ছাড়'</em> হিসেবে সংরক্ষিত হয়, ফলে পণ্যের ক্রয়মূল্যে কোনো গোলমাল হয় না এবং হিসাব শতভাগ মিলে থাকে।
+            When you purchase goods from a supplier (e.g., 100,000 Tk volume target) and earn a monthly commission or rebate percentage, you can deduct that discount directly from your payable balance using the <strong>"Apply Monthly Commission"</strong> tool. It logs a separate <em>'Monthly Commission Rebate'</em> entry in the ledger, keeping inventory purchase prices intact while eliminating financial mismatches.
           </p>
         </div>
       </div>
@@ -423,7 +423,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
           }`}
         >
           <Truck className="w-4 h-4" />
-          <span>সাপ্লায়ার তালিকা ও বর্তমান বকেয়া</span>
+          <span>Suppliers List & Due Balances</span>
         </button>
 
         <button
@@ -435,7 +435,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
           }`}
         >
           <FileText className="w-4 h-4" />
-          <span>সাপ্লায়ার বিস্তারিত লেজার শিট ({supplierLedger.length})</span>
+          <span>Detailed Supplier Ledger Sheet ({supplierLedger.length})</span>
         </button>
       </div>
 
@@ -462,7 +462,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                           : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
                       }`}
                     >
-                      {hasDue ? 'বকেয়া আছে' : 'পরিশোধিত'}
+                      {hasDue ? 'Balance Due' : 'Settled'}
                     </span>
                   </div>
 
@@ -482,15 +482,15 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                   {/* Commission Details Badge on Card */}
                   <div className="mt-3 p-2 bg-slate-800/80 rounded-xl border border-slate-700/60 flex items-center justify-between text-xs">
                     <div>
-                      <span className="text-[11px] text-slate-400 block">মাসিক কমিশন এগ্রিমেন্ট:</span>
+                      <span className="text-[11px] text-slate-400 block">Monthly Commission Agreement:</span>
                       <strong className="text-emerald-400">
-                        {sup.defaultCommissionRate ? `${sup.defaultCommissionRate}%` : 'নির্ধারিত নেই'}
+                        {sup.defaultCommissionRate ? `${sup.defaultCommissionRate}%` : 'Not set'}
                       </strong>
                     </div>
                     <div className="text-right">
-                      <span className="text-[11px] text-slate-400 block">মোট প্রাপ্ত ছাড়:</span>
+                      <span className="text-[11px] text-slate-400 block">Total Rebate Credited:</span>
                       <strong className="text-white">
-                        {(sup.totalCommissionEarned || 0).toLocaleString()} ৳
+                        {(sup.totalCommissionEarned || 0).toLocaleString()} Tk
                       </strong>
                     </div>
                   </div>
@@ -498,9 +498,9 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
 
                 <div className="pt-3 border-t border-slate-800 flex items-center justify-between">
                   <div>
-                    <span className="text-[11px] text-slate-400">বর্তমান বকেয়া (Balance Due)</span>
+                    <span className="text-[11px] text-slate-400">Balance Due</span>
                     <div className="text-lg font-black text-rose-400">
-                      {sup.currentBalance.toLocaleString()} ৳
+                      {sup.currentBalance.toLocaleString()} Tk
                     </div>
                   </div>
 
@@ -508,10 +508,10 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                     <button
                       onClick={() => handleOpenCommissionModalForSupplier(sup.id)}
                       className="px-2.5 py-1.5 bg-emerald-950/60 hover:bg-emerald-900/60 text-emerald-300 border border-emerald-700/50 text-xs font-semibold rounded-lg transition flex items-center gap-1"
-                      title="এই সাপ্লায়ারের কমিশন বকেয়া থেকে মাইনাস করুন"
+                      title="Deduct monthly commission from this supplier's balance"
                     >
                       <Percent className="w-3 h-3 text-emerald-400" />
-                      <span>কমিশন ছাড়</span>
+                      <span>Rebate</span>
                     </button>
 
                     <button
@@ -521,7 +521,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                       }}
                       className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg transition"
                     >
-                      লেজার
+                      Ledger
                     </button>
 
                     <button
@@ -532,7 +532,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                       }}
                       className="px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold rounded-lg transition"
                     >
-                      টাকা দিন
+                      Pay Due
                     </button>
                   </div>
                 </div>
@@ -548,16 +548,16 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
           {/* Filter Bar */}
           <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
             <div className="flex items-center gap-2 w-full sm:w-auto">
-              <span className="text-xs text-slate-400 shrink-0">সাপ্লায়ার নির্বাচন:</span>
+              <span className="text-xs text-slate-400 shrink-0">Filter Supplier:</span>
               <select
                 value={selectedSupplierId}
                 onChange={(e) => setSelectedSupplierId(e.target.value)}
                 className="bg-slate-800 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
               >
-                <option value="all">সকল সাপ্লায়ার ({suppliers.length})</option>
+                <option value="all">All Suppliers ({suppliers.length})</option>
                 {suppliers.map((s) => (
                   <option key={s.id} value={s.id}>
-                    {s.name} (বকেয়া: {s.currentBalance} ৳)
+                    {s.name} (Due: {s.currentBalance} Tk)
                   </option>
                 ))}
               </select>
@@ -567,7 +567,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
               <Search className="w-4 h-4 absolute left-3 top-2.5 text-slate-400" />
               <input
                 type="text"
-                placeholder="বিল নং, পণ্য বা কমিশন দিয়ে খুঁজুন..."
+                placeholder="Search by bill #, product or commission notes..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-9 pr-3 py-1.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-amber-500"
@@ -581,22 +581,22 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
               <table className="w-full text-left text-xs">
                 <thead className="bg-slate-800/90 text-slate-300 font-semibold border-b border-slate-700">
                   <tr>
-                    <th className="py-3 px-4">তারিখ</th>
-                    <th className="py-3 px-4">সাপ্লায়ার নাম</th>
-                    <th className="py-3 px-4 text-center">লেনদেনের ধরণ</th>
-                    <th className="py-3 px-4">চালান / রেফারেন্স</th>
-                    <th className="py-3 px-4">পণ্যের বিবরণ / নোট</th>
-                    <th className="py-3 px-4 text-right">বিল মূল্য (টাকা)</th>
-                    <th className="py-3 px-4 text-right">কমিশন ছাড় (Rebate)</th>
-                    <th className="py-3 px-4 text-right">পরিশোধ (টাকা)</th>
-                    <th className="py-3 px-4 text-right">চলতি বকেয়া (Balance)</th>
+                    <th className="py-3 px-4">Date</th>
+                    <th className="py-3 px-4">Supplier Name</th>
+                    <th className="py-3 px-4 text-center">Type</th>
+                    <th className="py-3 px-4">Bill / Ref #</th>
+                    <th className="py-3 px-4">Description / Notes</th>
+                    <th className="py-3 px-4 text-right">Bill Amount</th>
+                    <th className="py-3 px-4 text-right">Commission Rebate</th>
+                    <th className="py-3 px-4 text-right">Paid Amount</th>
+                    <th className="py-3 px-4 text-right">Balance Due</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-800">
                   {filteredLedger.length === 0 ? (
                     <tr>
                       <td colSpan={9} className="py-12 text-center text-slate-500">
-                        কোনো লেজার এন্ট্রি পাওয়া যায়নি।
+                        No ledger entries found.
                       </td>
                     </tr>
                   ) : (
@@ -611,23 +611,23 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                         <td className="py-3 px-4 text-center">
                           {l.type === 'purchase' && (
                             <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                              পণ্য ক্রয় বিল
+                              Purchase Bill
                             </span>
                           )}
                           {l.type === 'commission' && (
                             <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center gap-1">
                               <Percent className="w-3 h-3" />
-                              <span>মাসিক কমিশন ছাড়</span>
+                              <span>Monthly Rebate</span>
                             </span>
                           )}
                           {l.type === 'payment' && (
                             <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30">
-                              পেমেন্ট পরিশোধ
+                              Due Payment
                             </span>
                           )}
                           {l.type === 'return' && (
                             <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/20 text-purple-400 border border-purple-500/30">
-                              পণ্য ফেরত
+                              Product Return
                             </span>
                           )}
                         </td>
@@ -638,22 +638,22 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                           {l.itemsSummary || l.notes || '-'}
                         </td>
                         <td className="py-3 px-4 text-right font-semibold text-slate-200">
-                          {l.billAmount > 0 ? `${l.billAmount.toLocaleString()} ৳` : '-'}
+                          {l.billAmount > 0 ? `${l.billAmount.toLocaleString()} Tk` : '-'}
                         </td>
                         <td className="py-3 px-4 text-right font-bold text-emerald-400">
                           {l.commissionAmount && l.commissionAmount > 0 ? (
                             <span className="bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/40">
-                              -{l.commissionAmount.toLocaleString()} ৳
+                              -{l.commissionAmount.toLocaleString()} Tk
                             </span>
                           ) : (
                             '-'
                           )}
                         </td>
                         <td className="py-3 px-4 text-right font-semibold text-blue-300">
-                          {l.paidAmount > 0 ? `${l.paidAmount.toLocaleString()} ৳` : '-'}
+                          {l.paidAmount > 0 ? `${l.paidAmount.toLocaleString()} Tk` : '-'}
                         </td>
                         <td className="py-3 px-4 text-right font-black text-rose-400 text-sm">
-                          {l.balance.toLocaleString()} ৳
+                          {l.balance.toLocaleString()} Tk
                         </td>
                       </tr>
                     ))
@@ -665,7 +665,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
         </div>
       )}
 
-      {/* MODAL: Monthly Commission / Rebate Adjustment (NEW CORE FEATURE) */}
+      {/* MODAL: Monthly Commission / Rebate Adjustment */}
       {isCommissionModalOpen && targetSupplier && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs">
           <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg shadow-2xl p-5 space-y-4">
@@ -675,9 +675,9 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                   <Percent className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-white text-base">মাসিক কমিশন / রিবেট ছাড় সমন্বয়</h3>
+                  <h3 className="font-bold text-white text-base">Monthly Commission / Rebate Credit</h3>
                   <p className="text-xs text-slate-400">
-                    সাপ্লায়ার থেকে প্রাপ্ত কমিশন বকেয়া থেকে বাদ দিন
+                    Deduct earned turnover commission directly from supplier due balance
                   </p>
                 </div>
               </div>
@@ -693,7 +693,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
               {/* Select Supplier */}
               <div>
                 <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  সাপ্লায়ার নির্বাচন করুন *
+                  Select Supplier *
                 </label>
                 <select
                   value={commSupplierId}
@@ -702,7 +702,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                 >
                   {suppliers.map((s) => (
                     <option key={s.id} value={s.id}>
-                      {s.name} ({s.company}) — বকেয়া: {s.currentBalance} ৳
+                      {s.name} ({s.company}) — Due: {s.currentBalance} Tk
                     </option>
                   ))}
                 </select>
@@ -711,21 +711,21 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
               {/* Purchase Overview Box */}
               <div className="bg-slate-800/80 p-3 rounded-xl border border-slate-700/80 space-y-1.5 text-xs">
                 <div className="flex justify-between">
-                  <span className="text-slate-400">চলতি মাসে এই সাপ্লায়ার থেকে মোট ক্রয়:</span>
+                  <span className="text-slate-400">Total Purchases This Month from this Supplier:</span>
                   <span className="font-bold text-amber-400">
-                    {supplierPurchaseStats.thisMonthPurchases.toLocaleString()} ৳
+                    {supplierPurchaseStats.thisMonthPurchases.toLocaleString()} Tk
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-400">আজ পর্যন্ত সর্বমোট ক্রয়:</span>
+                  <span className="text-slate-400">All-Time Cumulative Purchases:</span>
                   <span className="font-bold text-white">
-                    {supplierPurchaseStats.totalPurchases.toLocaleString()} ৳
+                    {supplierPurchaseStats.totalPurchases.toLocaleString()} Tk
                   </span>
                 </div>
                 <div className="flex justify-between border-t border-slate-700/60 pt-1">
-                  <span className="text-slate-400">বর্তমানে সাপ্লায়ারের পাওনা বকেয়া:</span>
+                  <span className="text-slate-400">Current Outstanding Payable Balance:</span>
                   <span className="font-black text-rose-400">
-                    {targetSupplier.currentBalance.toLocaleString()} ৳
+                    {targetSupplier.currentBalance.toLocaleString()} Tk
                   </span>
                 </div>
               </div>
@@ -733,7 +733,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
               {/* Calculation Method (Percentage vs Fixed) */}
               <div>
                 <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                  কমিশন ছাড়ের হিসাব পদ্ধতি
+                  Commission Rebate Calculation Method
                 </label>
                 <div className="grid grid-cols-2 gap-2">
                   <button
@@ -746,7 +746,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                     }`}
                   >
                     <Percent className="w-3.5 h-3.5" />
-                    <span>শতাংশ হারে (%)</span>
+                    <span>Percentage Rate (%)</span>
                   </button>
 
                   <button
@@ -759,7 +759,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                     }`}
                   >
                     <DollarSign className="w-3.5 h-3.5" />
-                    <span>নির্দিষ্ট অংক (টাকা)</span>
+                    <span>Fixed Amount (Tk)</span>
                   </button>
                 </div>
               </div>
@@ -768,7 +768,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
               {commType === 'percentage' ? (
                 <div className="space-y-1">
                   <label className="block text-xs font-semibold text-slate-300">
-                    কমিশন শতকরা হার (%) *
+                    Commission Rate (%) *
                   </label>
                   <div className="relative">
                     <input
@@ -781,20 +781,19 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                       onChange={(e) =>
                         setCommPercentage(e.target.value === '' ? '' : Number(e.target.value))
                       }
-                      placeholder="যেমন: 3"
+                      placeholder="e.g. 3"
                       className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-base font-bold text-white focus:outline-none focus:border-emerald-500 pr-8"
                     />
                     <span className="absolute right-3 top-2.5 text-slate-400 font-bold">%</span>
                   </div>
                   <p className="text-[11px] text-slate-400">
-                    ক্রয়কৃত মোট {((supplierPurchaseStats.thisMonthPurchases || supplierPurchaseStats.totalPurchases)).toLocaleString()} ৳ এর{' '}
-                    {commPercentage}% = <strong className="text-emerald-400">{calculatedCommissionAmount.toLocaleString()} ৳</strong>
+                    {commPercentage}% of purchases ({((supplierPurchaseStats.thisMonthPurchases || supplierPurchaseStats.totalPurchases)).toLocaleString()} Tk) = <strong className="text-emerald-400">{calculatedCommissionAmount.toLocaleString()} Tk</strong>
                   </p>
                 </div>
               ) : (
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 mb-1">
-                    কমিশন ছাড়ের পরিমাণ (টাকা) *
+                    Commission Rebate Amount (Tk) *
                   </label>
                   <input
                     type="number"
@@ -804,7 +803,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                     onChange={(e) =>
                       setCommFixedAmount(e.target.value === '' ? '' : Number(e.target.value))
                     }
-                    placeholder="যেমন: 3000 বা 5000"
+                    placeholder="e.g. 3000 or 5000"
                     className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-base font-bold text-emerald-300 focus:outline-none focus:border-emerald-500"
                   />
                 </div>
@@ -814,25 +813,25 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 mb-1">
-                    মাস / পিরিয়ড
+                    Month / Period
                   </label>
                   <input
                     type="text"
                     value={commPeriod}
                     onChange={(e) => setCommPeriod(e.target.value)}
-                    placeholder="যেমন: সেপ্টেম্বর ২০২৬"
+                    placeholder="e.g. September 2026"
                     className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none"
                   />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 mb-1">
-                    মন্তব্য / রেফারেন্স
+                    Reference / Notes
                   </label>
                   <input
                     type="text"
                     value={commNotes}
                     onChange={(e) => setCommNotes(e.target.value)}
-                    placeholder="যেমন: ১ লাখ টাকা টার্গেট রিবেট"
+                    placeholder="e.g. 100k turnover target discount"
                     className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none"
                   />
                 </div>
@@ -841,18 +840,18 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
               {/* Real-time Adjustment Summary Preview (Prevents mismatch!) */}
               <div className="bg-slate-950 p-3.5 rounded-xl border border-emerald-900/50 space-y-1.5 text-xs">
                 <div className="flex items-center justify-between text-slate-400">
-                  <span>বর্তমান বকেয়া পাওনা:</span>
+                  <span>Current Payable Due:</span>
                   <span className="font-semibold text-white">
-                    {targetSupplier.currentBalance.toLocaleString()} ৳
+                    {targetSupplier.currentBalance.toLocaleString()} Tk
                   </span>
                 </div>
                 <div className="flex items-center justify-between text-emerald-400 font-bold">
-                  <span>(-) অর্জিত মাসিক কমিশন ছাড়:</span>
-                  <span>- {calculatedCommissionAmount.toLocaleString()} ৳</span>
+                  <span>(-) Earned Monthly Commission Rebate:</span>
+                  <span>- {calculatedCommissionAmount.toLocaleString()} Tk</span>
                 </div>
                 <div className="flex items-center justify-between border-t border-slate-800 pt-1.5 text-sm font-black text-white">
-                  <span>নতুন অবশিষ্ট বকেয়া (Projected Balance):</span>
-                  <span className="text-amber-400">{projectedNewBalance.toLocaleString()} ৳</span>
+                  <span>New Outstanding Balance (Projected):</span>
+                  <span className="text-amber-400">{projectedNewBalance.toLocaleString()} Tk</span>
                 </div>
               </div>
 
@@ -862,14 +861,14 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                   onClick={() => setIsCommissionModalOpen(false)}
                   className="px-4 py-2 text-xs text-slate-400 hover:text-white"
                 >
-                  বাতিল
+                  Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={calculatedCommissionAmount <= 0}
                   className="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-emerald-600/20 transition disabled:opacity-50"
                 >
-                  কমিশন ছাড় সমন্বয় নিশ্চিত করুন
+                  Confirm Commission Deduction
                 </button>
               </div>
             </form>
@@ -877,15 +876,15 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
         </div>
       )}
 
-      {/* Modal: Add Purchase Voucher (with Instant Bill Commission / Trade Discount option) */}
+      {/* Modal: Add Purchase Voucher */}
       {isPurchaseModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs">
           <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
             <div className="bg-slate-800 p-4 border-b border-slate-700/80 flex items-center justify-between">
               <div>
-                <h3 className="font-bold text-white text-base">নতুন পণ্য ক্রয় ভাউচার</h3>
+                <h3 className="font-bold text-white text-base">New Purchase Invoice Voucher</h3>
                 <p className="text-xs text-slate-400">
-                  সাপ্লায়ার থেকে চালান এন্ট্রি দিলে স্বয়ংক্রিয়ভাবে স্টক ও লেজার আপডেট হবে
+                  Entering supplier invoices automatically increases inventory stock and updates supplier ledger
                 </p>
               </div>
               <button
@@ -900,7 +899,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 mb-1">
-                    সাপ্লায়ার নির্বাচন করুন *
+                    Select Supplier *
                   </label>
                   <select
                     value={purSupplierId}
@@ -917,12 +916,12 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
 
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 mb-1">
-                    চালান / ইনভয়েস নং *
+                    Challan / Invoice Bill # *
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="যেমন: BILL-9921"
+                    placeholder="e.g. BILL-9921"
                     value={purBillNo}
                     onChange={(e) => setPurBillNo(e.target.value)}
                     className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-amber-500"
@@ -933,14 +932,14 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
               {/* Items Table */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-xs font-semibold text-slate-300">
-                  <span>ক্রয়কৃত পণ্যের তালিকা</span>
+                  <span>Purchased Product Items</span>
                   <button
                     type="button"
                     onClick={handleAddPurchaseItemRow}
                     className="text-xs text-amber-400 hover:text-amber-300 flex items-center gap-1 font-bold"
                   >
                     <Plus className="w-3.5 h-3.5" />
-                    <span>আরেকটি পণ্য যোগ করুন</span>
+                    <span>Add Item Row</span>
                   </button>
                 </div>
 
@@ -976,7 +975,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                           <input
                             type="number"
                             min="1"
-                            placeholder="পরিমাণ"
+                            placeholder="Qty"
                             value={item.quantity}
                             onChange={(e) => {
                               const updated = [...purItems];
@@ -991,7 +990,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                           <input
                             type="number"
                             min="0"
-                            placeholder="ক্রয়মূল্য"
+                            placeholder="Buy Price"
                             value={item.buyPrice}
                             onChange={(e) => {
                               const updated = [...purItems];
@@ -1003,7 +1002,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                         </div>
 
                         <div className="w-24 text-right text-xs font-bold text-white">
-                          {lineTotal.toLocaleString()} ৳
+                          {lineTotal.toLocaleString()} Tk
                         </div>
 
                         {purItems.length > 1 && (
@@ -1024,15 +1023,15 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
               {/* Commission Discount & Bill Calculation */}
               <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2">
                 <div className="flex justify-between text-xs text-slate-400">
-                  <span>মোট পণ্যের ক্রয়মূল্য:</span>
-                  <span className="font-semibold text-white">{rawPurchaseTotal.toLocaleString()} ৳</span>
+                  <span>Gross Products Cost:</span>
+                  <span className="font-semibold text-white">{rawPurchaseTotal.toLocaleString()} Tk</span>
                 </div>
 
                 {/* Instant trade discount/commission on this bill */}
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-emerald-400 font-semibold flex items-center gap-1">
                     <Percent className="w-3 h-3" />
-                    <span>বিলকালীন কমিশন / স্পেশাল ছাড় (যদি বিলেই কাটা হয়):</span>
+                    <span>Invoice Trade Discount / Instant Rebate (if deducted on bill):</span>
                   </span>
                   <div className="w-28">
                     <input
@@ -1051,15 +1050,15 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                 </div>
 
                 <div className="flex justify-between text-sm font-bold text-white border-t border-slate-800 pt-1.5">
-                  <span>নিট প্রদেয় বিল (Net Payable Bill):</span>
+                  <span>Net Payable Bill:</span>
                   <span className="text-amber-400 font-black text-base">
-                    {netPurchaseBill.toLocaleString()} ৳
+                    {netPurchaseBill.toLocaleString()} Tk
                   </span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3 pt-2 border-t border-slate-800">
                   <div>
-                    <label className="block text-xs text-slate-400 mb-0.5">নগদ পরিশোধ (Paid)</label>
+                    <label className="block text-xs text-slate-400 mb-0.5">Paid Now</label>
                     <input
                       type="number"
                       min="0"
@@ -1072,9 +1071,9 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                   </div>
 
                   <div>
-                    <label className="block text-xs text-slate-400 mb-0.5">অবশিষ্ট বকেয়া (Due)</label>
+                    <label className="block text-xs text-slate-400 mb-0.5">Balance Due</label>
                     <div className="w-full bg-slate-900 px-2.5 py-1.5 rounded-lg text-xs font-bold text-rose-400 border border-slate-800">
-                      {(netPurchaseBill - (Number(purPaid) || 0)).toLocaleString()} ৳
+                      {(netPurchaseBill - (Number(purPaid) || 0)).toLocaleString()} Tk
                     </div>
                   </div>
                 </div>
@@ -1082,7 +1081,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
 
               <input
                 type="text"
-                placeholder="নোট বা চালান সংক্রান্ত মন্তব্য..."
+                placeholder="Notes or invoice remarks..."
                 value={purNotes}
                 onChange={(e) => setPurNotes(e.target.value)}
                 className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none"
@@ -1094,13 +1093,13 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                   onClick={() => setIsPurchaseModalOpen(false)}
                   className="px-4 py-2 text-xs text-slate-400"
                 >
-                  বাতিল
+                  Cancel
                 </button>
                 <button
                   type="submit"
                   className="px-5 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl"
                 >
-                  ক্রয় ভাউচার সেভ ও স্টক আপডেট
+                  Save Purchase & Update Stock
                 </button>
               </div>
             </form>
@@ -1113,7 +1112,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs">
           <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md shadow-2xl p-5 space-y-4">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="font-bold text-white text-base">সাপ্লায়ার বকেয়া পরিশোধ</h3>
+              <h3 className="font-bold text-white text-base">Pay Supplier Due Balance</h3>
               <button
                 onClick={() => setIsPaymentModalOpen(false)}
                 className="text-slate-400 hover:text-white"
@@ -1125,7 +1124,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
             <form onSubmit={handleSavePayment} className="space-y-3">
               <div>
                 <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  সাপ্লায়ার নির্বাচন করুন *
+                  Select Supplier *
                 </label>
                 <select
                   value={paySupplierId}
@@ -1140,7 +1139,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                 >
                   {suppliers.map((s) => (
                     <option key={s.id} value={s.id}>
-                      {s.name} (চলতি বকেয়া: {s.currentBalance} ৳)
+                      {s.name} (Current Due: {s.currentBalance} Tk)
                     </option>
                   ))}
                 </select>
@@ -1148,13 +1147,13 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
 
               <div>
                 <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  পরিশোধকৃত টাকার পরিমাণ *
+                  Payment Amount *
                 </label>
                 <input
                   type="number"
                   min="1"
                   required
-                  placeholder="যেমন: 25000"
+                  placeholder="e.g. 25000"
                   value={payAmount}
                   onChange={(e) =>
                     setPayAmount(e.target.value === '' ? '' : Number(e.target.value))
@@ -1164,24 +1163,24 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">পেমেন্ট মাধ্যম</label>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Payment Method</label>
                 <select
                   value={payMethod}
                   onChange={(e) => setPayMethod(e.target.value)}
                   className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none"
                 >
-                  <option value="নগদ ক্যাশ">নগদ ক্যাশ</option>
-                  <option value="ব্যাংক চেক / ট্র্যান্সফার">ব্যাংক চেক / ট্র্যান্সফার</option>
-                  <option value="বিকাশ">বিকাশ</option>
-                  <option value="নগদ এমএফএস">নগদ এমএফএস</option>
+                  <option value="Cash">Cash</option>
+                  <option value="Bank Cheque / Transfer">Bank Cheque / Transfer</option>
+                  <option value="bKash">bKash</option>
+                  <option value="Nagad">Nagad MFS</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">নোট / বিবরণ</label>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Notes / Cheque #</label>
                 <input
                   type="text"
-                  placeholder="যেমন: চেক নং-৭৭৯৮১২"
+                  placeholder="e.g. Cheque # 779812 or Bank Ref"
                   value={payNotes}
                   onChange={(e) => setPayNotes(e.target.value)}
                   className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none"
@@ -1194,13 +1193,13 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                   onClick={() => setIsPaymentModalOpen(false)}
                   className="px-4 py-2 text-xs text-slate-400"
                 >
-                  বাতিল
+                  Cancel
                 </button>
                 <button
                   type="submit"
                   className="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl"
                 >
-                  পেমেন্ট সম্পন্ন করুন
+                  Confirm Payment
                 </button>
               </div>
             </form>
@@ -1213,7 +1212,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs">
           <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md shadow-2xl p-5 space-y-4">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="font-bold text-white text-base">নতুন সাপ্লায়ার যোগ করুন</h3>
+              <h3 className="font-bold text-white text-base">Add New Supplier</h3>
               <button
                 onClick={() => setIsAddSupplierModalOpen(false)}
                 className="text-slate-400 hover:text-white"
@@ -1225,12 +1224,12 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
             <form onSubmit={handleSaveSupplier} className="space-y-3">
               <div>
                 <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  সাপ্লায়ার / ডিলারশিপের নাম *
+                  Supplier / Dealership Name *
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="যেমন: মেসার্স রহিমআফরোজ ডিস্ট্রিবিউশন"
+                  placeholder="e.g. Rahimafrooz Distribution Center"
                   value={supName}
                   onChange={(e) => setSupName(e.target.value)}
                   className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
@@ -1238,10 +1237,10 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">কোম্পানির নাম</label>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Company / Brand Name</label>
                 <input
                   type="text"
-                  placeholder="যেমন: রহিমআফরোজ বাংলাদেশ"
+                  placeholder="e.g. Rahimafrooz Batteries Bangladesh Ltd"
                   value={supCompany}
                   onChange={(e) => setSupCompany(e.target.value)}
                   className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
@@ -1250,7 +1249,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">মোবাইল নম্বর *</label>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">Mobile Number *</label>
                   <input
                     type="tel"
                     required
@@ -1262,13 +1261,13 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 mb-1">
-                    ডিফল্ট কমিশন হার (%)
+                    Default Commission Rate (%)
                   </label>
                   <input
                     type="number"
                     step="0.5"
                     min="0"
-                    placeholder="যেমন: 3"
+                    placeholder="e.g. 3"
                     value={supCommissionRate}
                     onChange={(e) =>
                       setSupCommissionRate(e.target.value === '' ? '' : Number(e.target.value))
@@ -1279,10 +1278,10 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">ঠিকানা</label>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Address / Depot</label>
                 <input
                   type="text"
-                  placeholder="যেমন: নবাবপুর রোড, ঢাকা"
+                  placeholder="e.g. Nawabpur Road, Dhaka"
                   value={supAddress}
                   onChange={(e) => setSupAddress(e.target.value)}
                   className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none"
@@ -1291,7 +1290,7 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
 
               <div>
                 <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  প্রারম্ভিক বকেয়া পাওনা (Opening Due)
+                  Opening Balance Due (Tk)
                 </label>
                 <input
                   type="number"
@@ -1310,13 +1309,13 @@ export const SuppliersView: React.FC<SuppliersViewProps> = ({
                   onClick={() => setIsAddSupplierModalOpen(false)}
                   className="px-4 py-2 text-xs text-slate-400"
                 >
-                  বাতিল
+                  Cancel
                 </button>
                 <button
                   type="submit"
                   className="px-5 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl"
                 >
-                  সংরক্ষণ করুন
+                  Save Supplier
                 </button>
               </div>
             </form>

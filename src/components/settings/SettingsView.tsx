@@ -46,7 +46,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
       invoiceFooterNote: invoiceFooterNote.trim(),
       warrantyPolicy: warrantyPolicy.trim(),
     });
-    alert('দোকানের সেটিংস সফলভাবে সংরক্ষিত হয়েছে!');
+    alert('Shop settings saved successfully!');
   };
 
   return (
@@ -59,10 +59,10 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
           </div>
           <div>
             <h2 className="text-xl sm:text-2xl font-black text-white">
-              দোকানের সেটিংস ও ক্যাশ মেমো কনফিগারেশন
+              Shop Settings & Invoice Configuration
             </h2>
             <p className="text-xs sm:text-sm text-slate-400">
-              দোকানের নাম, ঠিকানা, মোবাইল নম্বর ও ইনভয়েসের ওয়ারেন্টি পলিসি পরিবর্তন করুন
+              Customize shop identity, address, phone number, and printed invoice warranty policies
             </p>
           </div>
         </div>
@@ -73,13 +73,13 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
           <h3 className="font-bold text-white text-base flex items-center gap-2 border-b border-slate-800 pb-3">
             <Store className="w-4 h-4 text-amber-400" />
-            <span>দোকানের প্রাথমিক প্রোফাইল</span>
+            <span>Store Profile</span>
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1">
-                দোকানের নাম (Shop Name) *
+                Shop Name *
               </label>
               <input
                 type="text"
@@ -92,7 +92,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1">
-                স্লোগান / ট্যাগলাইন
+                Slogan / Tagline
               </label>
               <input
                 type="text"
@@ -106,7 +106,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1">
-                স্বত্বাধিকারীর নাম (Proprietor)
+                Proprietor / Owner Name
               </label>
               <input
                 type="text"
@@ -118,7 +118,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1">
-                মোবাইল নম্বর *
+                Contact Phone *
               </label>
               <input
                 type="text"
@@ -131,7 +131,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1">
-                ইমেইল ঠিকানা
+                Email Address
               </label>
               <input
                 type="email"
@@ -144,7 +144,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
           <div>
             <label className="block text-xs font-semibold text-slate-300 mb-1">
-              দোকানের পূর্ণ ঠিকানা *
+              Store Full Address *
             </label>
             <input
               type="text"
@@ -160,12 +160,12 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
           <h3 className="font-bold text-white text-base flex items-center gap-2 border-b border-slate-800 pb-3">
             <FileText className="w-4 h-4 text-emerald-400" />
-            <span>ক্যাশ মেমো ও ওয়ারেন্টি শর্তাবলী</span>
+            <span>Printed Invoice & Warranty Terms</span>
           </h3>
 
           <div>
             <label className="block text-xs font-semibold text-slate-300 mb-1">
-              ওয়ারেন্টি পলিসি (ক্যাশ মেমোর শর্ত অংশে প্রিন্ট হবে)
+              Warranty Terms (Printed on Invoice)
             </label>
             <textarea
               rows={3}
@@ -177,7 +177,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
           <div>
             <label className="block text-xs font-semibold text-slate-300 mb-1">
-              মেমোর ফুটারে শুভেচ্ছা বার্তা
+              Invoice Footer Greeting Note
             </label>
             <input
               type="text"
@@ -195,24 +195,24 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
             onClick={() => {
               if (
                 confirm(
-                  'আপনি কি সমস্ত ডেমো ডাটা রিসেট করে ডিফল্ট সেটিংসে ফিরতে চান? বর্তমান ডাটা মুছে যাবে!'
+                  'Are you sure you want to reset all demo data back to factory defaults? All unsynced local data will be replaced!'
                 )
               ) {
                 onResetToDefault();
               }
             }}
-            className="px-4 py-2 bg-slate-900 border border-rose-900/60 hover:bg-rose-950 text-rose-300 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition"
+            className="px-4 py-2 bg-slate-900 border border-rose-900/60 hover:bg-rose-950 text-rose-300 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer"
           >
             <RotateCcw className="w-3.5 h-3.5" />
-            <span>ডেমো ডাটা রিসেট করুন</span>
+            <span>Reset Demo Data</span>
           </button>
 
           <button
             type="submit"
-            className="px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-xl text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-amber-500/20 transition"
+            className="px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-xl text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-amber-500/20 transition cursor-pointer"
           >
             <Save className="w-4 h-4" />
-            <span>সেটিংস সেভ করুন</span>
+            <span>Save Settings</span>
           </button>
         </div>
       </form>

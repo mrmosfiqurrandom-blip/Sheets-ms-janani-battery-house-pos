@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BatteryCharging, X, Plus, AlertCircle, ShieldCheck } from 'lucide-react';
+import { BatteryCharging, X, Plus, ShieldCheck } from 'lucide-react';
 import { ScrapBatteryTradeIn } from '../../types';
 
 interface ScrapBatteryModalProps {
@@ -13,11 +13,11 @@ export const ScrapBatteryModal: React.FC<ScrapBatteryModalProps> = ({
   onClose,
   onAddScrap,
 }) => {
-  const [brand, setBrand] = useState('হ্যামকো (Hamko)');
+  const [brand, setBrand] = useState('Hamko');
   const [capacityAh, setCapacityAh] = useState('150Ah');
   const [customCapacity, setCustomCapacity] = useState('');
   const [value, setValue] = useState<number | ''>(3500);
-  const [condition, setCondition] = useState('ডেড সেল / অক্ষত বডি');
+  const [condition, setCondition] = useState('Dead Cell / Intact Body');
   const [notes, setNotes] = useState('');
 
   if (!isOpen) return null;
@@ -28,7 +28,7 @@ export const ScrapBatteryModal: React.FC<ScrapBatteryModalProps> = ({
     const finalVal = Number(value) || 0;
 
     if (finalVal <= 0) {
-      alert('অনুগ্রহ করে পুরাতন ব্যাটারির মূল্য প্রদান করুন');
+      alert('Please enter a valid old battery trade-in value');
       return;
     }
 
@@ -38,7 +38,7 @@ export const ScrapBatteryModal: React.FC<ScrapBatteryModalProps> = ({
       capacityAh: finalCapacity,
       value: finalVal,
       condition,
-      notes: notes || `কাস্টমারের পুরাতন ${brand} ${finalCapacity} ব্যাটারি এক্সচেঞ্জ গ্রহণ।`,
+      notes: notes || `Customer trade-in exchange for ${brand} ${finalCapacity} battery.`,
       soldStatus: 'in_stock',
     };
 
@@ -57,10 +57,10 @@ export const ScrapBatteryModal: React.FC<ScrapBatteryModalProps> = ({
             </div>
             <div>
               <h3 className="font-bold text-base sm:text-lg text-slate-950">
-                পুরাতন ব্যাটারি জমা / এক্সচেঞ্জ এন্ট্রি
+                Old Battery Trade-in / Exchange
               </h3>
               <p className="text-xs text-slate-900 font-medium">
-                নতুন ব্যাটারির মূল দাম ঠিক রেখে আলাদা স্ক্র্যাপ হিসাব তৈরি হবে
+                Preserves original product selling price while recording scrap inventory
               </p>
             </div>
           </div>
@@ -76,7 +76,7 @@ export const ScrapBatteryModal: React.FC<ScrapBatteryModalProps> = ({
         <div className="p-3 bg-amber-500/10 border-b border-amber-500/20 text-xs text-amber-200 flex items-start gap-2">
           <ShieldCheck className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
           <p>
-            <strong className="text-amber-300">হিসাবের স্বচ্ছতা:</strong> গ্রাহকের মোট বিল থেকে এই টাকা মাইনাস হবে, কিন্তু নতুন ব্যাটারির সেলস রেট কমবে না। এই পুরাতন ব্যাটারিটি সরাসরি আপনার <strong>স্ক্র্যাপ ব্যাটারি স্টকে</strong> জমা হবে যাতে ভবিষ্যতে পাইকারি রিসাইক্লিং কারখানায় লাভসহ বিক্রি করতে পারেন।
+            <strong className="text-amber-300">Accounting Accuracy:</strong> This amount is deducted from the customer's total bill, but the selling price of the new battery remains completely unchanged. This old battery enters your <strong>Scrap Battery Stock</strong> so you can resell it at a profit to recycling plants.
           </p>
         </div>
 
@@ -86,42 +86,42 @@ export const ScrapBatteryModal: React.FC<ScrapBatteryModalProps> = ({
             {/* Battery Brand */}
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                পুরাতন ব্যাটারির ব্র্যান্ড *
+                Old Battery Brand *
               </label>
               <select
                 value={brand}
                 onChange={(e) => setBrand(e.target.value)}
                 className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500"
               >
-                <option value="হ্যামকো (Hamko)">হ্যামকো (Hamko)</option>
-                <option value="রহিমআফরোজ (Rahimafrooz)">রহিমআফরোজ (Rahimafrooz)</option>
-                <option value="লুকাস (Lucas)">লুকাস (Lucas)</option>
-                <option value="নাভানা (Navana)">নাভানা (Navana)</option>
-                <option value="ভলভো (Volvo)">ভলভো (Volvo)</option>
-                <option value="ইস্টার্ন (Eastern)">ইস্টার্ন (Eastern)</option>
-                <option value="গাড়ির ব্যাটারি (Car/Auto)">গাড়ির ব্যাটারি (Car/Auto)</option>
-                <option value="অন্যান্য / লোকাল ব্র্যান্ড">অন্যান্য / লোকাল ব্র্যান্ড</option>
+                <option value="Hamko">Hamko</option>
+                <option value="Rahimafrooz">Rahimafrooz</option>
+                <option value="Lucas">Lucas</option>
+                <option value="Navana">Navana</option>
+                <option value="Volvo">Volvo</option>
+                <option value="Eastern">Eastern</option>
+                <option value="Automotive Car/Truck">Automotive Car/Truck</option>
+                <option value="Generic / Local">Generic / Local</option>
               </select>
             </div>
 
             {/* Capacity (Ah) */}
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                ক্যাপাসিটি / সাইজ (Ah) *
+                Capacity / Size (Ah) *
               </label>
               <select
                 value={capacityAh}
                 onChange={(e) => setCapacityAh(e.target.value)}
                 className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500"
               >
-                <option value="60Ah">60 Ah (ছোট গাড়ি)</option>
+                <option value="60Ah">60 Ah (Small Car)</option>
                 <option value="80Ah">80 Ah</option>
                 <option value="100Ah">100 Ah</option>
                 <option value="120Ah">120 Ah</option>
                 <option value="130Ah">130 Ah</option>
-                <option value="150Ah">150 Ah (স্ট্যান্ডার্ড আইপিএস)</option>
-                <option value="200Ah">200 Ah (হেভি আইপিএস)</option>
-                <option value="other">অন্য সাইজ (কাস্টম)</option>
+                <option value="150Ah">150 Ah (Standard IPS)</option>
+                <option value="200Ah">200 Ah (Heavy IPS)</option>
+                <option value="other">Other Size (Custom)</option>
               </select>
             </div>
           </div>
@@ -129,11 +129,11 @@ export const ScrapBatteryModal: React.FC<ScrapBatteryModalProps> = ({
           {capacityAh === 'other' && (
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                কাস্টম ব্যাটারি ক্যাপাসিটি লিখুন
+                Enter Custom Capacity
               </label>
               <input
                 type="text"
-                placeholder="যেমন: 220Ah বা 24V সেট"
+                placeholder="e.g., 220Ah or 24V Set"
                 value={customCapacity}
                 onChange={(e) => setCustomCapacity(e.target.value)}
                 className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500"
@@ -141,14 +141,14 @@ export const ScrapBatteryModal: React.FC<ScrapBatteryModalProps> = ({
             </div>
           )}
 
-          {/* Trade-in Value / Buyback Price */}
+          {/* Trade-in Value */}
           <div>
             <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-              পুরাতন ব্যাটারির এক্সচেঞ্জ মূল্য (টাকা) *
+              Trade-in Value / Buyback Credit (Amount) *
             </label>
             <div className="relative">
               <span className="absolute left-3.5 top-2.5 text-amber-400 font-bold text-base">
-                ৳
+                $
               </span>
               <input
                 type="number"
@@ -157,12 +157,12 @@ export const ScrapBatteryModal: React.FC<ScrapBatteryModalProps> = ({
                 required
                 value={value}
                 onChange={(e) => setValue(e.target.value === '' ? '' : Number(e.target.value))}
-                placeholder="যেমন: 3500"
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-9 pr-4 py-2.5 text-base font-bold text-amber-300 focus:outline-none focus:border-amber-500"
+                placeholder="e.g., 3500"
+                className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-8 pr-4 py-2.5 text-base font-bold text-amber-300 focus:outline-none focus:border-amber-500"
               />
             </div>
             <p className="text-[11px] text-slate-400 mt-1">
-              এই পরিমাণ টাকা কাস্টমারের প্রদেয় বিল থেকে বিয়োগ হবে এবং আপনার ক্রয় হিসেবে স্টকে ঢুকবে।
+              This amount is deducted from the customer's payable total and enters your inventory as scrap purchase.
             </p>
           </div>
 
@@ -170,27 +170,27 @@ export const ScrapBatteryModal: React.FC<ScrapBatteryModalProps> = ({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                শারীরিক অবস্থা
+                Physical Condition
               </label>
               <select
                 value={condition}
                 onChange={(e) => setCondition(e.target.value)}
                 className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500"
               >
-                <option value="ডেড সেল / অক্ষত বডি">ডেড সেল / অক্ষত বডি</option>
-                <option value="টার্মিনাল ভাঙা">টার্মিনাল ভাঙা</option>
-                <option value="বডি ফাটা / লিক">বডি ফাটা / লিক</option>
-                <option value="মোটামুটি চার্জ ধরে">মোটামুটি চার্জ ধরে</option>
+                <option value="Dead Cell / Intact Body">Dead Cell / Intact Body</option>
+                <option value="Broken Terminal">Broken Terminal</option>
+                <option value="Cracked Casing / Leaking">Cracked Casing / Leaking</option>
+                <option value="Fair / Holds Minor Charge">Fair / Holds Minor Charge</option>
               </select>
             </div>
 
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                মন্তব্য (ঐচ্ছিক)
+                Notes (Optional)
               </label>
               <input
                 type="text"
-                placeholder="যেমন: লেড ওজন ২০ কেজি"
+                placeholder="e.g., Lead weight approx 20kg"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500"
@@ -205,14 +205,14 @@ export const ScrapBatteryModal: React.FC<ScrapBatteryModalProps> = ({
               onClick={onClose}
               className="px-4 py-2 text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition"
             >
-              বাতিল
+              Cancel
             </button>
             <button
               type="submit"
               className="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl flex items-center gap-2 shadow-lg shadow-amber-500/20 transition"
             >
               <Plus className="w-4 h-4" />
-              <span>কার্টে পুরাতন ব্যাটারি যোগ করুন</span>
+              <span>Add Old Battery to Cart</span>
             </button>
           </div>
         </form>

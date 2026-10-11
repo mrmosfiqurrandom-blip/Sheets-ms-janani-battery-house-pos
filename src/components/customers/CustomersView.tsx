@@ -56,7 +56,7 @@ export const CustomersView: React.FC<CustomersViewProps> = ({
     const newCust: Customer = {
       id: 'c-' + Date.now(),
       name: cName.trim(),
-      phone: cPhone.trim() || 'ন/এ',
+      phone: cPhone.trim() || 'N/A',
       address: cAddress.trim(),
       totalPurchases: 0,
       totalDue: 0,
@@ -100,10 +100,10 @@ export const CustomersView: React.FC<CustomersViewProps> = ({
             </div>
             <div>
               <h2 className="text-xl sm:text-2xl font-black text-white">
-                কাস্টমার ও বাকি খাতা
+                Customers & Due Receivables Ledger
               </h2>
               <p className="text-xs sm:text-sm text-slate-400">
-                গ্রাহকদের তালিকা, ইনভয়েস ইতিহাস ও বকেয়া পাওনা হিসাব
+                Customer directory, purchase history, outstanding dues, and due collection
               </p>
             </div>
           </div>
@@ -114,7 +114,7 @@ export const CustomersView: React.FC<CustomersViewProps> = ({
           className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-xs sm:text-sm flex items-center gap-1.5 shadow-lg shadow-amber-500/20 transition"
         >
           <Plus className="w-4 h-4" />
-          <span>নতুন কাস্টমার নিবন্ধন</span>
+          <span>Register Customer</span>
         </button>
       </div>
 
@@ -122,9 +122,9 @@ export const CustomersView: React.FC<CustomersViewProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between">
           <div>
-            <span className="text-xs text-slate-400 font-medium">মোট নিবন্ধিত কাস্টমার</span>
-            <div className="text-2xl font-black text-white mt-1">{customers.length} জন</div>
-            <span className="text-xs text-slate-500">নিয়মিত ও খুচরা ক্রেতা</span>
+            <span className="text-xs text-slate-400 font-medium">Registered Customers</span>
+            <div className="text-2xl font-black text-white mt-1">{customers.length} Customers</div>
+            <span className="text-xs text-slate-500">Regular & retail clients</span>
           </div>
           <div className="p-3 bg-slate-800 text-blue-400 rounded-xl">
             <Users className="w-6 h-6" />
@@ -133,11 +133,11 @@ export const CustomersView: React.FC<CustomersViewProps> = ({
 
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between">
           <div>
-            <span className="text-xs text-slate-400 font-medium">কাস্টমারদের মোট বকেয়া</span>
+            <span className="text-xs text-slate-400 font-medium">Total Customer Dues Receivable</span>
             <div className="text-2xl font-black text-rose-400 mt-1">
-              {totalCustomerDue.toLocaleString()} ৳
+              {totalCustomerDue.toLocaleString()} Tk
             </div>
-            <span className="text-xs text-slate-500">বাকি খাতার মোট পাওনা</span>
+            <span className="text-xs text-slate-500">Outstanding balance to collect</span>
           </div>
           <div className="p-3 bg-rose-500/10 text-rose-400 rounded-xl border border-rose-500/20">
             <DollarSign className="w-6 h-6" />
@@ -146,11 +146,11 @@ export const CustomersView: React.FC<CustomersViewProps> = ({
 
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between">
           <div>
-            <span className="text-xs text-slate-400 font-medium">বকেয়াদার গ্রাহক সংখ্যা</span>
+            <span className="text-xs text-slate-400 font-medium">Customers with Due Balance</span>
             <div className="text-2xl font-black text-amber-400 mt-1">
-              {customers.filter((c) => c.totalDue > 0).length} জন
+              {customers.filter((c) => c.totalDue > 0).length} Clients
             </div>
-            <span className="text-xs text-slate-500">যাদের কাছে টাকা পাওনা রয়েছে</span>
+            <span className="text-xs text-slate-500">Clients with pending dues</span>
           </div>
           <div className="p-3 bg-amber-500/10 text-amber-400 rounded-xl border border-amber-500/20">
             <Receipt className="w-6 h-6" />
@@ -164,7 +164,7 @@ export const CustomersView: React.FC<CustomersViewProps> = ({
           <Search className="w-4 h-4 absolute left-3 top-2.5 text-slate-400" />
           <input
             type="text"
-            placeholder="নাম, ফোন বা ঠিকানা দিয়ে খুঁজুন..."
+            placeholder="Search by name, phone or address..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-amber-500"
@@ -191,7 +191,7 @@ export const CustomersView: React.FC<CustomersViewProps> = ({
                         : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
                     }`}
                   >
-                    {hasDue ? `বকেয়া: ${c.totalDue.toLocaleString()} ৳` : 'বকেয়া নেই'}
+                    {hasDue ? `Due: ${c.totalDue.toLocaleString()} Tk` : 'No Due'}
                   </span>
                 </div>
 
@@ -207,7 +207,7 @@ export const CustomersView: React.FC<CustomersViewProps> = ({
                     </div>
                   )}
                   <div className="text-[11px] text-slate-500 pt-1">
-                    মোট ক্রয়: {c.totalPurchases.toLocaleString()} ৳
+                    Total Purchases: {c.totalPurchases.toLocaleString()} Tk
                   </div>
                 </div>
               </div>
@@ -217,7 +217,7 @@ export const CustomersView: React.FC<CustomersViewProps> = ({
                   onClick={() => setSelectedCustomer(c)}
                   className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg transition"
                 >
-                  ইনভয়েস ইতিহাস
+                  Invoice History
                 </button>
 
                 {hasDue && (
@@ -229,7 +229,7 @@ export const CustomersView: React.FC<CustomersViewProps> = ({
                     }}
                     className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-lg transition"
                   >
-                    বকেয়া জমা নিন
+                    Collect Due
                   </button>
                 )}
               </div>
@@ -244,9 +244,9 @@ export const CustomersView: React.FC<CustomersViewProps> = ({
           <div className="flex items-center justify-between border-b border-slate-800 pb-3">
             <div>
               <h3 className="font-bold text-white text-base">
-                {selectedCustomer.name} এর ক্রয়কৃত ইনভয়েস সমূহ
+                Purchase Invoices for {selectedCustomer.name}
               </h3>
-              <p className="text-xs text-slate-400">ফোন: {selectedCustomer.phone}</p>
+              <p className="text-xs text-slate-400">Phone: {selectedCustomer.phone}</p>
             </div>
             <button
               onClick={() => setSelectedCustomer(null)}
@@ -257,7 +257,7 @@ export const CustomersView: React.FC<CustomersViewProps> = ({
           </div>
 
           {customerInvoices.length === 0 ? (
-            <p className="text-xs text-slate-500">কোনো ইনভয়েস পাওয়া যায়নি।</p>
+            <p className="text-xs text-slate-500">No invoices found for this customer.</p>
           ) : (
             <div className="space-y-2">
               {customerInvoices.map((inv) => (
@@ -277,11 +277,11 @@ export const CustomersView: React.FC<CustomersViewProps> = ({
                   <div className="flex items-center gap-3">
                     <div className="text-right">
                       <div className="font-bold text-amber-300">
-                        {inv.netTotal.toLocaleString()} ৳
+                        {inv.netTotal.toLocaleString()} Tk
                       </div>
                       <div className="text-[10px] text-slate-400">
-                        পরিশোধ: {inv.paidAmount.toLocaleString()} ৳{' '}
-                        {inv.dueAmount > 0 && `(বাকি: ${inv.dueAmount}৳)`}
+                        Paid: {inv.paidAmount.toLocaleString()} Tk{' '}
+                        {inv.dueAmount > 0 && `(Due: ${inv.dueAmount} Tk)`}
                       </div>
                     </div>
 
@@ -289,7 +289,7 @@ export const CustomersView: React.FC<CustomersViewProps> = ({
                       onClick={() => onViewInvoice(inv)}
                       className="px-3 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded-lg hover:bg-amber-500/30"
                     >
-                      রিসিট দেখুন
+                      View Receipt
                     </button>
                   </div>
                 </div>
@@ -304,7 +304,7 @@ export const CustomersView: React.FC<CustomersViewProps> = ({
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs">
           <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md shadow-2xl p-5 space-y-4">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="font-bold text-white text-base">নতুন কাস্টমার নিবন্ধন</h3>
+              <h3 className="font-bold text-white text-base">Register Customer</h3>
               <button
                 onClick={() => setIsAddCustomerOpen(false)}
                 className="text-slate-400 hover:text-white"
@@ -316,12 +316,12 @@ export const CustomersView: React.FC<CustomersViewProps> = ({
             <form onSubmit={handleSaveCustomer} className="space-y-3">
               <div>
                 <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  কাস্টমারের নাম *
+                  Customer Name *
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="যেমন: ইঞ্জি: তানভীর আহমেদ"
+                  placeholder="e.g. Tanvir Ahmed"
                   value={cName}
                   onChange={(e) => setCName(e.target.value)}
                   className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
@@ -330,7 +330,7 @@ export const CustomersView: React.FC<CustomersViewProps> = ({
 
               <div>
                 <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  মোবাইল নম্বর *
+                  Mobile Number *
                 </label>
                 <input
                   type="tel"
@@ -343,10 +343,10 @@ export const CustomersView: React.FC<CustomersViewProps> = ({
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">ঠিকানা</label>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Address</label>
                 <input
                   type="text"
-                  placeholder="যেমন: মিরপুর ১০, ঢাকা"
+                  placeholder="e.g. Mirpur 10, Dhaka"
                   value={cAddress}
                   onChange={(e) => setCAddress(e.target.value)}
                   className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
@@ -359,13 +359,13 @@ export const CustomersView: React.FC<CustomersViewProps> = ({
                   onClick={() => setIsAddCustomerOpen(false)}
                   className="px-4 py-2 text-xs text-slate-400"
                 >
-                  বাতিল
+                  Cancel
                 </button>
                 <button
                   type="submit"
                   className="px-5 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl"
                 >
-                  সংরক্ষণ করুন
+                  Save Customer
                 </button>
               </div>
             </form>
@@ -378,7 +378,7 @@ export const CustomersView: React.FC<CustomersViewProps> = ({
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xs">
           <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-sm shadow-2xl p-5 space-y-4">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="font-bold text-white text-base">বকেয়া পাওনা আদায়</h3>
+              <h3 className="font-bold text-white text-base">Collect Customer Due</h3>
               <button
                 onClick={() => setIsCollectDueOpen(false)}
                 className="text-slate-400 hover:text-white"
@@ -389,18 +389,18 @@ export const CustomersView: React.FC<CustomersViewProps> = ({
 
             <div className="text-xs text-slate-300 space-y-1">
               <div>
-                কাস্টমার: <strong>{selectedCustomer.name}</strong>
+                Customer: <strong>{selectedCustomer.name}</strong>
               </div>
               <div>
-                বর্তমান মোট বকেয়া:{' '}
-                <strong className="text-rose-400">{selectedCustomer.totalDue} ৳</strong>
+                Current Outstanding Due:{' '}
+                <strong className="text-rose-400">{selectedCustomer.totalDue} Tk</strong>
               </div>
             </div>
 
             <form onSubmit={handleSaveDueCollection} className="space-y-3">
               <div>
                 <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  আদায়কৃত টাকার পরিমাণ *
+                  Amount Collected (Tk) *
                 </label>
                 <input
                   type="number"
@@ -421,13 +421,13 @@ export const CustomersView: React.FC<CustomersViewProps> = ({
                   onClick={() => setIsCollectDueOpen(false)}
                   className="px-4 py-1.5 text-xs text-slate-400"
                 >
-                  বাতিল
+                  Cancel
                 </button>
                 <button
                   type="submit"
                   className="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl"
                 >
-                  জমা নিশ্চিত করুন
+                  Confirm Collection
                 </button>
               </div>
             </form>

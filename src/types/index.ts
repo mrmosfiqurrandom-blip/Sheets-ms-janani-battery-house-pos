@@ -76,7 +76,7 @@ export interface CartItem {
 
 export interface SaleInvoice {
   id: string; // e.g., "INV-1001"
-  date: string; // "2026-10-02"
+  date: string; // "2026-10-10"
   time: string; // "14:30"
   customerName: string;
   customerPhone: string;
@@ -156,7 +156,16 @@ export interface Customer {
 export interface Expense {
   id: string;
   date: string;
-  category: 'দোকান ভাড়া' | 'বিদ্যুৎ বিল' | 'কর্মচারী বেতন' | 'চা-নাস্তা' | 'পরিবহন খরচ' | 'মেরামত ও যন্ত্রাংশ' | 'আপ্যায়ন' | 'অন্যান্য';
+  category:
+    | 'Shop Rent'
+    | 'Electricity Bill'
+    | 'Staff Salary'
+    | 'Tea & Snacks'
+    | 'Transport & Delivery'
+    | 'Repairs & Maintenance'
+    | 'Entertainment'
+    | 'Other'
+    | string;
   amount: number;
   paidTo?: string;
   paymentMethod: string;

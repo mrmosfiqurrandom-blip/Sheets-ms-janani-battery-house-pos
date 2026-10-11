@@ -62,12 +62,12 @@ export const GoogleSheetsSyncView: React.FC<GoogleSheetsSyncViewProps> = ({
       googleScriptUrl: scriptUrl.trim(),
       autoSync,
     });
-    alert('গুগল শিট সেটিংস সংরক্ষিত হয়েছে!');
+    alert('Google Sheets settings saved successfully!');
   };
 
   const handleTestConnection = async () => {
     if (!scriptUrl.trim()) {
-      alert('অনুগ্রহ করে Google Apps Script Web App URL টি প্রদান করুন।');
+      alert('Please enter your Google Apps Script Web App URL.');
       return;
     }
     setIsTesting(true);
@@ -89,10 +89,10 @@ export const GoogleSheetsSyncView: React.FC<GoogleSheetsSyncViewProps> = ({
       if (content) {
         const ok = importBackup(content);
         if (ok) {
-          alert('ব্যাকআপ ডাটা সফলভাবে রিস্টোর হয়েছে!');
+          alert('Backup data restored successfully!');
           window.location.reload();
         } else {
-          alert('ব্যাকআপ ফাইলে ত্রুটি রয়েছে। সঠিক JSON ফাইল নির্বাচন করুন।');
+          alert('Error in backup file. Please select a valid JSON backup file.');
         }
       }
     };
@@ -109,10 +109,10 @@ export const GoogleSheetsSyncView: React.FC<GoogleSheetsSyncViewProps> = ({
           </div>
           <div>
             <h2 className="text-xl sm:text-2xl font-black text-white">
-              গুগল শিট ও গুগল অ্যাপ স্ক্রিপ্ট ডাটাবেস
+              Google Sheets & Google Apps Script Database
             </h2>
             <p className="text-xs sm:text-sm text-slate-400">
-              আপনার গুগল ড্রাইভের Google Sheet-কে সম্পূর্ণ ডাটাবেস হিসেবে ব্যবহার করুন
+              Use your Google Drive's Google Sheet as a complete relational database and cloud ledger
             </p>
           </div>
         </div>
@@ -124,10 +124,10 @@ export const GoogleSheetsSyncView: React.FC<GoogleSheetsSyncViewProps> = ({
           <div>
             <h3 className="font-bold text-white text-base flex items-center gap-2">
               <Cloud className="w-5 h-5 text-amber-400" />
-              <span>Google Apps Script Web App সংযোগ</span>
+              <span>Google Apps Script Web App Connection</span>
             </h3>
             <p className="text-xs text-slate-400 mt-0.5">
-              Google Sheet-এর Apps Script থেকে পাওয়া Web App URL এখানে দিন
+              Enter your deployed Google Apps Script Web App URL below
             </p>
           </div>
 
@@ -135,17 +135,17 @@ export const GoogleSheetsSyncView: React.FC<GoogleSheetsSyncViewProps> = ({
             <button
               onClick={handleTestConnection}
               disabled={isTesting || !scriptUrl}
-              className="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold rounded-xl flex items-center gap-1.5 transition disabled:opacity-50"
+              className="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold rounded-xl flex items-center gap-1.5 transition disabled:opacity-50 cursor-pointer"
             >
               <RefreshCw className={`w-3.5 h-3.5 text-amber-400 ${isTesting ? 'animate-spin' : ''}`} />
-              <span>{isTesting ? 'পরীক্ষা করা হচ্ছে...' : 'কানেকশন টেস্ট'}</span>
+              <span>{isTesting ? 'Testing...' : 'Test Connection'}</span>
             </button>
 
             <button
               onClick={handleSaveSettings}
-              className="px-4 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl shadow transition"
+              className="px-4 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl shadow transition cursor-pointer"
             >
-              সেভ করুন
+              Save Settings
             </button>
           </div>
         </div>
@@ -165,7 +165,7 @@ export const GoogleSheetsSyncView: React.FC<GoogleSheetsSyncViewProps> = ({
             />
           </div>
           <p className="text-[11px] text-slate-500">
-            উদাহরণ: <code className="text-slate-400 font-mono">https://script.google.com/macros/s/AKfycbx.../exec</code>
+            Example: <code className="text-slate-400 font-mono">https://script.google.com/macros/s/AKfycbx.../exec</code>
           </p>
         </div>
 
@@ -179,17 +179,17 @@ export const GoogleSheetsSyncView: React.FC<GoogleSheetsSyncViewProps> = ({
               className="w-4 h-4 rounded text-amber-500 bg-slate-800 border-slate-700 focus:ring-amber-500"
             />
             <span className="text-xs text-slate-300 font-medium">
-              প্রতিটি নতুন সেল বা খরচে স্বয়ংক্রিয় সিঙ্ক (Auto-Sync) চালু রাখুন
+              Enable Auto-Sync on every new sale, expense, or ledger update
             </span>
           </label>
 
           <button
             onClick={onSyncAll}
             disabled={isSyncing || !settings.googleScriptUrl}
-            className="px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs rounded-xl flex items-center gap-2 shadow-lg shadow-blue-500/20 transition disabled:opacity-50"
+            className="px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs rounded-xl flex items-center gap-2 shadow-lg shadow-blue-500/20 transition disabled:opacity-50 cursor-pointer"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin' : ''}`} />
-            <span>এখনই সব ডাটা গুগল শিটে পাঠান (Sync Now)</span>
+            <span>Sync All Data to Google Sheets Now</span>
           </button>
         </div>
 
@@ -216,43 +216,43 @@ export const GoogleSheetsSyncView: React.FC<GoogleSheetsSyncViewProps> = ({
       <div className="flex border-b border-slate-800 gap-2 text-xs font-semibold overflow-x-auto">
         <button
           onClick={() => setActiveTab('setup')}
-          className={`pb-2.5 px-3 border-b-2 transition shrink-0 ${
+          className={`pb-2.5 px-3 border-b-2 transition shrink-0 cursor-pointer ${
             activeTab === 'setup'
               ? 'border-amber-500 text-amber-400'
               : 'border-transparent text-slate-400 hover:text-slate-200'
           }`}
         >
-          ধাপে ধাপে সেটআপ গাইড (Setup Guide)
+          Setup Guide
         </button>
         <button
           onClick={() => setActiveTab('code')}
-          className={`pb-2.5 px-3 border-b-2 transition shrink-0 ${
+          className={`pb-2.5 px-3 border-b-2 transition shrink-0 cursor-pointer ${
             activeTab === 'code'
               ? 'border-amber-500 text-amber-400'
               : 'border-transparent text-slate-400 hover:text-slate-200'
           }`}
         >
-          গুগল অ্যাপ স্ক্রিপ্ট কোড (Code.gs)
+          Google Apps Script Code (Code.gs)
         </button>
         <button
           onClick={() => setActiveTab('schema')}
-          className={`pb-2.5 px-3 border-b-2 transition shrink-0 ${
+          className={`pb-2.5 px-3 border-b-2 transition shrink-0 cursor-pointer ${
             activeTab === 'schema'
               ? 'border-amber-500 text-amber-400'
               : 'border-transparent text-slate-400 hover:text-slate-200'
           }`}
         >
-          শিটের টেবিল ও কলাম সমূহ (Sheet Schema)
+          Sheet Schema & Columns
         </button>
         <button
           onClick={() => setActiveTab('backup')}
-          className={`pb-2.5 px-3 border-b-2 transition shrink-0 ${
+          className={`pb-2.5 px-3 border-b-2 transition shrink-0 cursor-pointer ${
             activeTab === 'backup'
               ? 'border-amber-500 text-amber-400'
               : 'border-transparent text-slate-400 hover:text-slate-200'
           }`}
         >
-          লোকাল ব্যাকআপ ও রিস্টোর (JSON Backup)
+          Local Backup & Restore (JSON)
         </button>
       </div>
 
@@ -263,66 +263,66 @@ export const GoogleSheetsSyncView: React.FC<GoogleSheetsSyncViewProps> = ({
             {/* Step 1 */}
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-2">
               <div className="w-8 h-8 rounded-full bg-amber-500 text-slate-950 font-black flex items-center justify-center text-sm">
-                ১
+                1
               </div>
-              <h4 className="font-bold text-white text-sm">গুগল শিট তৈরি করুন</h4>
+              <h4 className="font-bold text-white text-sm">Create a Google Sheet</h4>
               <p className="text-xs text-slate-400 leading-relaxed">
-                আপনার ব্রাউজারে <strong>sheets.google.com</strong> এ যান এবং একটি নতুন ব্ল্যাংক স্প্রেডশিট খুলুন। নাম দিন <em>"ইলেক্ট্রো পাওয়ার পিওএস ডাটাবেস"</em>।
+                Go to <strong>sheets.google.com</strong> in your browser and create a new blank spreadsheet. Name it <em>"ElectroPower POS Database"</em>.
               </p>
             </div>
 
             {/* Step 2 */}
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-2">
               <div className="w-8 h-8 rounded-full bg-amber-500 text-slate-950 font-black flex items-center justify-center text-sm">
-                ২
+                2
               </div>
-              <h4 className="font-bold text-white text-sm">Apps Script এ যান</h4>
+              <h4 className="font-bold text-white text-sm">Open Apps Script</h4>
               <p className="text-xs text-slate-400 leading-relaxed">
-                স্প্রেডশিটের উপরের মেনুবার থেকে <strong>Extensions &gt; Apps Script</strong> এ ক্লিক করুন। একটি নতুন কোড এডিটর উইন্ডো ওপেন হবে।
+                From the top menu of your spreadsheet, click <strong>Extensions &gt; Apps Script</strong>. A new code editor tab will open.
               </p>
             </div>
 
             {/* Step 3 */}
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-2">
               <div className="w-8 h-8 rounded-full bg-amber-500 text-slate-950 font-black flex items-center justify-center text-sm">
-                ৩
+                3
               </div>
-              <h4 className="font-bold text-white text-sm">Code.gs কোড পেস্ট করুন</h4>
+              <h4 className="font-bold text-white text-sm">Paste Code.gs</h4>
               <p className="text-xs text-slate-400 leading-relaxed">
-                পাশের <strong>Code.gs</strong> ট্যাব থেকে সম্পূর্ণ কোডটি কপি করে এডিটরের সব আগের কোড মুছে পেস্ট করুন এবং Save আইকনে ক্লিক করুন।
+                Copy the code from the <strong>Code.gs</strong> tab here, erase any existing placeholder code in the script editor, paste it, and save.
               </p>
             </div>
 
             {/* Step 4 */}
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-2">
               <div className="w-8 h-8 rounded-full bg-amber-500 text-slate-950 font-black flex items-center justify-center text-sm">
-                ৪
+                4
               </div>
-              <h4 className="font-bold text-white text-sm">Web App হিসেবে Deploy করুন</h4>
+              <h4 className="font-bold text-white text-sm">Deploy as Web App</h4>
               <p className="text-xs text-slate-400 leading-relaxed">
-                উপরের ডানপাশে নীল রঙের <strong>Deploy &gt; New deployment</strong> বাটনে ক্লিক করুন। Select type: <strong>Web app</strong> নির্বাচন করুন।
+                Click the blue <strong>Deploy &gt; New deployment</strong> button at top right. Select type: <strong>Web app</strong>.
               </p>
             </div>
 
             {/* Step 5 */}
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-2">
               <div className="w-8 h-8 rounded-full bg-amber-500 text-slate-950 font-black flex items-center justify-center text-sm">
-                ৫
+                5
               </div>
-              <h4 className="font-bold text-white text-sm">Who has access: Anyone</h4>
+              <h4 className="font-bold text-white text-sm">Set Access: Anyone</h4>
               <p className="text-xs text-slate-400 leading-relaxed">
-                <strong>Execute as:</strong> "Me (আপনার ইমেইল)" এবং <strong>Who has access:</strong> "Anyone" দিন। তারপর <strong>Deploy</strong> এ চাপুন।
+                Set <strong>Execute as:</strong> "Me (your email)" and <strong>Who has access:</strong> "Anyone". Then click <strong>Deploy</strong> and authorize permissions.
               </p>
             </div>
 
             {/* Step 6 */}
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-2">
               <div className="w-8 h-8 rounded-full bg-amber-500 text-slate-950 font-black flex items-center justify-center text-sm">
-                ৬
+                6
               </div>
-              <h4 className="font-bold text-white text-sm">URL পেস্ট করে সেভ করুন</h4>
+              <h4 className="font-bold text-white text-sm">Paste Web App URL & Save</h4>
               <p className="text-xs text-slate-400 leading-relaxed">
-                Deploy সম্পন্ন হলে যে <strong>Web app URL</strong> টি দেখতে পাবেন, সেটি কপি করে এই অ্যাপের উপরের ইনপুট বক্সে বসিয়ে <strong>সেভ করুন</strong>!
+                Copy the resulting <strong>Web app URL</strong>, paste it into the URL field above, and click <strong>Save Settings</strong>!
               </p>
             </div>
           </div>
@@ -334,14 +334,14 @@ export const GoogleSheetsSyncView: React.FC<GoogleSheetsSyncViewProps> = ({
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-400">
-              এই কোডটি গুগল স্প্রেডশিটের Extensions &gt; Apps Script-এ পেস্ট করবেন:
+              Paste this script into Google Sheets (Extensions &gt; Apps Script):
             </span>
             <button
               onClick={handleCopyCode}
-              className="px-4 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl flex items-center gap-1.5 transition shadow"
+              className="px-4 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl flex items-center gap-1.5 transition shadow cursor-pointer"
             >
               {copied ? <Check className="w-4 h-4 text-emerald-950" /> : <Copy className="w-4 h-4" />}
-              <span>{copied ? 'কোড কপি হয়েছে!' : 'সম্পূর্ণ কোড কপি করুন'}</span>
+              <span>{copied ? 'Code Copied!' : 'Copy Full Code'}</span>
             </button>
           </div>
 
@@ -359,50 +359,50 @@ export const GoogleSheetsSyncView: React.FC<GoogleSheetsSyncViewProps> = ({
           <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-2">
             <h4 className="font-bold text-amber-400 text-sm flex items-center gap-1.5">
               <Database className="w-4 h-4" />
-              <span>1. Sales (বিক্রয় খাতা)</span>
+              <span>1. Sales (Sales Ledger Sheet)</span>
             </h4>
             <p className="text-xs text-slate-400">
-              কলামসমূহ: Invoice ID, Date, Time, Customer Name, Customer Phone, Address, Items Sold, Subtotal (Tk), Scrap Credit (Tk), Discount (Tk), Net Payable (Tk), Paid Amount (Tk), Due Amount (Tk), Payment Method, Notes
+              Columns: Invoice ID, Date, Time, Customer Name, Customer Phone, Address, Items Sold, Subtotal (Tk), Scrap Credit (Tk), Discount (Tk), Net Payable (Tk), Paid Amount (Tk), Due Amount (Tk), Payment Method, Notes
             </p>
           </div>
 
           <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-2">
             <h4 className="font-bold text-emerald-400 text-sm flex items-center gap-1.5">
               <Database className="w-4 h-4" />
-              <span>2. Scrap_Batteries (পুরাতন ব্যাটারি খাতা)</span>
+              <span>2. Scrap_Batteries (Scrap Battery Sheet)</span>
             </h4>
             <p className="text-xs text-slate-400">
-              কলামসমূহ: Scrap ID, Date, Invoice ID, Customer Name, Phone, Battery Brand, Capacity (Ah), Buyback Value (Tk), Status (In Stock / Sold), Sold Price (Tk), Sold To Party, Sold Date, Profit (Tk), Notes
+              Columns: Scrap ID, Date, Invoice ID, Customer Name, Phone, Battery Brand, Capacity (Ah), Buyback Value (Tk), Status (In Stock / Sold), Sold Price (Tk), Sold To Party, Sold Date, Profit (Tk), Notes
             </p>
           </div>
 
           <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-2">
             <h4 className="font-bold text-blue-400 text-sm flex items-center gap-1.5">
               <Database className="w-4 h-4" />
-              <span>3. Products (পণ্য ও স্টক)</span>
+              <span>3. Products (Products & Stock Sheet)</span>
             </h4>
             <p className="text-xs text-slate-400">
-              কলামসমূহ: Product ID, Barcode/SKU, Product Name, Brand, Category, Unit, Buy Price (Tk), Sell Price (Tk), Stock Qty, Min Alert, Warranty
+              Columns: Product ID, Barcode/SKU, Product Name, Brand, Category, Unit, Buy Price (Tk), Sell Price (Tk), Stock Qty, Min Alert, Warranty
             </p>
           </div>
 
           <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-2">
             <h4 className="font-bold text-rose-400 text-sm flex items-center gap-1.5">
               <Database className="w-4 h-4" />
-              <span>4. Suppliers & Supplier_Ledger (সাপ্লায়ার ও লেজার)</span>
+              <span>4. Suppliers & Supplier_Ledger (Suppliers & Ledger Sheet)</span>
             </h4>
             <p className="text-xs text-slate-400">
-              কলামসমূহ: Entry ID, Date, Supplier Name, Transaction Type, Invoice / Ref No, Bill Amount (Tk), Paid Amount (Tk), Commission / Rebate (Tk), Running Balance (Tk), Items / Description, Notes
+              Columns: Entry ID, Date, Supplier Name, Transaction Type, Invoice / Ref No, Bill Amount (Tk), Paid Amount (Tk), Commission / Rebate (Tk), Running Balance (Tk), Items / Description, Notes
             </p>
           </div>
 
           <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-2 md:col-span-2">
             <h4 className="font-bold text-purple-400 text-sm flex items-center gap-1.5">
               <Database className="w-4 h-4" />
-              <span>5. Expenses (দোকানের আনুষাঙ্গিক খরচ)</span>
+              <span>5. Expenses (Shop Operating Expenses Sheet)</span>
             </h4>
             <p className="text-xs text-slate-400">
-              কলামসমূহ: Expense ID, Date, Category, Amount (Tk), Paid To, Payment Method, Notes
+              Columns: Expense ID, Date, Category, Amount (Tk), Paid To, Payment Method, Notes
             </p>
           </div>
         </div>
@@ -412,24 +412,24 @@ export const GoogleSheetsSyncView: React.FC<GoogleSheetsSyncViewProps> = ({
       {activeTab === 'backup' && (
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
           <div>
-            <h4 className="font-bold text-white text-base">লোকাল ব্যাকআপ ও রিস্টোর</h4>
+            <h4 className="font-bold text-white text-base">Local Backup & Restore</h4>
             <p className="text-xs text-slate-400">
-              আপনার কম্পিউটার বা মোবাইলে সমস্ত পণ্য, বিক্রয় ও লেজারের সম্পূর্ণ ব্যাকআপ ফাইল নামিয়ে রাখুন।
+              Download complete local backups of all inventory, sales, suppliers, and ledger entries to your computer.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <button
               onClick={exportBackup}
-              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl flex items-center gap-2 shadow transition"
+              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl flex items-center gap-2 shadow transition cursor-pointer"
             >
               <Download className="w-4 h-4" />
-              <span>সম্পূর্ণ ডাটাবেস ডাউনলোড (JSON Backup)</span>
+              <span>Download Database Backup (JSON)</span>
             </button>
 
             <label className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold text-xs rounded-xl flex items-center gap-2 cursor-pointer transition">
               <Upload className="w-4 h-4 text-amber-400" />
-              <span>ব্যাকআপ ফাইল থেকে রিস্টোর করুন</span>
+              <span>Restore from Backup File</span>
               <input
                 type="file"
                 accept=".json"

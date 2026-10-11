@@ -5,26 +5,26 @@
 
 export const GOOGLE_APPS_SCRIPT_CODE = `/**
  * ============================================================================
- * ইলেক্ট্রো পাওয়ার পিওএস - গুগল শিট ডাটাবেস ও অ্যাপ স্ক্রিপ্ট (Code.gs)
+ * ElectroPower POS - Google Sheets Database & Google Apps Script (Code.gs)
  * IPS & Battery POS - Google Sheets Database Sync Backend
  * ============================================================================
  * 
- * নির্দেশনা:
- * ১. একটি নতুন Google Sheet খুলুন (যেমন: 'IPS & Battery POS Database')
- * ২. Extensions > Apps Script মেন্যুতে যান
- * ৩. আগের সব কোড মুছে এই সম্পূর্ণ কোডটি পেস্ট করুন
- * ৪. 'Deploy' > 'New deployment' এ ক্লিক করুন
- * ৫. Select type: 'Web app' নির্বাচন করুন
- * ৬. Description: 'POS Backend API'
- * ৭. Execute as: 'Me (আপনার ইমেইল)'
- * ৮. Who has access: 'Anyone' (বা 'Anyone with Google account')
- * ৯. 'Deploy' চাপুন এবং প্রাপ্ত Web App URL টি কপি করে পিওএস অ্যাপ্লিকেশনে বসান।
+ * Instructions:
+ * 1. Open a new Google Sheet (e.g. 'ElectroPower POS Database')
+ * 2. Go to Extensions > Apps Script in the menu
+ * 3. Delete any default code and paste this entire code
+ * 4. Click 'Deploy' > 'New deployment'
+ * 5. Select type: 'Web app'
+ * 6. Description: 'POS Backend API'
+ * 7. Execute as: 'Me (your email)'
+ * 8. Who has access: 'Anyone'
+ * 9. Click 'Deploy', authorize permissions, and copy the Web App URL into the POS app.
  */
 
 function setupDatabaseSheets() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   
-  // ১. Sales Sheet
+  // 1. Sales Sheet
   var salesSheet = ss.getSheetByName('Sales') || ss.insertSheet('Sales');
   if (salesSheet.getLastRow() === 0) {
     salesSheet.appendRow([
@@ -36,7 +36,7 @@ function setupDatabaseSheets() {
     formatHeaderRow(salesSheet, '#1e293b');
   }
 
-  // ২. Scrap Batteries Sheet (পুরাতন স্ক্র্যাপ ব্যাটারি খাতা)
+  // 2. Scrap Batteries Sheet (Old Scrap Battery Ledger)
   var scrapSheet = ss.getSheetByName('Scrap_Batteries') || ss.insertSheet('Scrap_Batteries');
   if (scrapSheet.getLastRow() === 0) {
     scrapSheet.appendRow([
@@ -48,7 +48,7 @@ function setupDatabaseSheets() {
     formatHeaderRow(scrapSheet, '#0f766e');
   }
 
-  // ৩. Products & Stock Sheet (মজুদ স্টক)
+  // 3. Products & Stock Sheet
   var productSheet = ss.getSheetByName('Products') || ss.insertSheet('Products');
   if (productSheet.getLastRow() === 0) {
     productSheet.appendRow([
@@ -59,7 +59,7 @@ function setupDatabaseSheets() {
     formatHeaderRow(productSheet, '#1d4ed8');
   }
 
-  // ৪. Suppliers Sheet (সাপ্লায়ার তালিকা)
+  // 4. Suppliers Sheet
   var supSheet = ss.getSheetByName('Suppliers') || ss.insertSheet('Suppliers');
   if (supSheet.getLastRow() === 0) {
     supSheet.appendRow([
@@ -69,7 +69,7 @@ function setupDatabaseSheets() {
     formatHeaderRow(supSheet, '#b45309');
   }
 
-  // ৫. Supplier Ledger Sheet (সাপ্লায়ার বিস্তারিত লেজার শিট)
+  // 5. Supplier Ledger Sheet
   var ledgerSheet = ss.getSheetByName('Supplier_Ledger') || ss.insertSheet('Supplier_Ledger');
   if (ledgerSheet.getLastRow() === 0) {
     ledgerSheet.appendRow([
@@ -80,7 +80,7 @@ function setupDatabaseSheets() {
     formatHeaderRow(ledgerSheet, '#7c2d12');
   }
 
-  // ৬. Expenses Sheet (দোকানের আনুষাঙ্গিক খরচ)
+  // 6. Expenses Sheet
   var expSheet = ss.getSheetByName('Expenses') || ss.insertSheet('Expenses');
   if (expSheet.getLastRow() === 0) {
     expSheet.appendRow([
@@ -100,7 +100,7 @@ function formatHeaderRow(sheet, bgColor) {
   sheet.setFrozenRows(1);
 }
 
-// GET রিকোয়েস্ট হ্যান্ডলার (ডাটা ফেচ ও কানেকশন টেস্ট)
+// GET request handler (data fetch & connection test)
 function doGet(e) {
   setupDatabaseSheets();
   var action = (e && e.parameter && e.parameter.action) || 'test';
@@ -108,7 +108,7 @@ function doGet(e) {
   if (action === 'test') {
     return createJsonResponse({
       success: true,
-      message: 'গুগল শিট ও অ্যাপ স্ক্রিপ্ট ডাটাবেস সফলভাবে সংযুক্ত হয়েছে!',
+      message: 'Google Sheets & Apps Script database connected successfully!',
       spreadsheetName: SpreadsheetApp.getActiveSpreadsheet().getName(),
       timestamp: new Date().toISOString()
     });
@@ -132,7 +132,7 @@ function doGet(e) {
   return createJsonResponse({ success: false, message: 'Invalid action' });
 }
 
-// POST রিকোয়েস্ট হ্যান্ডলার (ডাটা সিঙ্ক ও সেভ)
+// POST request handler (data sync & save)
 function doPost(e) {
   setupDatabaseSheets();
   try {
@@ -144,7 +144,7 @@ function doPost(e) {
     if (action === 'test') {
       return createJsonResponse({
         success: true,
-        message: 'কানেকশন সফল! গুগল শিট প্রস্তুত আছে।'
+        message: 'Connection successful! Google Sheet database is ready.'
       });
     }
 
@@ -217,7 +217,7 @@ function doPost(e) {
         var ledSheet = ss.getSheetByName('Supplier_Ledger');
         clearSheetContentPreserveHeader(ledSheet);
         data.supplierLedger.forEach(function(l) {
-          var typeLabel = l.type === 'purchase' ? 'ক্রয় বিল' : (l.type === 'commission' ? 'মাসিক কমিশন ছাড়' : 'পেমেন্ট পরিশোধ');
+          var typeLabel = l.type === 'purchase' ? 'Purchase Bill' : (l.type === 'commission' ? 'Monthly Rebate Commission' : 'Payment Cleared');
           ledSheet.appendRow([
             l.id, l.date, l.supplierName, typeLabel, l.invoiceNumber || '',
             l.billAmount || 0, l.paidAmount || 0, l.commissionAmount || 0, l.balance, 
@@ -240,7 +240,7 @@ function doPost(e) {
 
       return createJsonResponse({
         success: true,
-        message: 'গুগল শিটে সমস্ত ডাটা সফলভাবে সিঙ্ক সম্পন্ন হয়েছে!',
+        message: 'All data successfully synchronized to Google Sheets!',
         syncTime: new Date().toLocaleString()
       });
     }
@@ -250,7 +250,7 @@ function doPost(e) {
   } catch (error) {
     return createJsonResponse({
       success: false,
-      message: 'ত্রুটি: ' + error.toString()
+      message: 'Error: ' + error.toString()
     });
   }
 }
@@ -294,7 +294,7 @@ export async function testGoogleSheetConnection(scriptUrl: string): Promise<Sync
   if (!scriptUrl || !scriptUrl.startsWith('http')) {
     return {
       success: false,
-      message: 'অনুগ্রহ করে সঠিক Google Apps Script Web App URL প্রদান করুন।',
+      message: 'Please provide a valid Google Apps Script Web App URL.',
     };
   }
 
@@ -315,7 +315,7 @@ export async function testGoogleSheetConnection(scriptUrl: string): Promise<Sync
     const data = await response.json();
     return {
       success: data.success ?? true,
-      message: data.message || 'গুগল শিট কানেকশন সফল হয়েছে!',
+      message: data.message || 'Google Sheets connection successful!',
       timestamp: new Date().toLocaleTimeString(),
     };
   } catch (err: any) {
@@ -331,12 +331,12 @@ export async function testGoogleSheetConnection(scriptUrl: string): Promise<Sync
       const postData = await postRes.json();
       return {
         success: postData.success ?? true,
-        message: postData.message || 'গুগল শিট কানেকশন সফল হয়েছে!',
+        message: postData.message || 'Google Sheets connection successful!',
       };
     } catch (e: any) {
       return {
         success: false,
-        message: 'সংযোগ করা সম্ভব হয়নি। Web App Deploy করার সময় "Who has access: Anyone" নির্বাচন করা আছে কিনা চেক করুন।',
+        message: 'Could not connect. Please ensure "Who has access: Anyone" is selected when deploying your Web App.',
       };
     }
   }
@@ -346,7 +346,7 @@ export async function syncAllToGoogleSheet(scriptUrl: string, payload: any): Pro
   if (!scriptUrl) {
     return {
       success: false,
-      message: 'গুগল অ্যাপ স্ক্রিপ্ট URL দেওয়া হয়নি। সেটিংস থেকে URL সেট করুন।',
+      message: 'Google Apps Script URL is not configured. Set the URL in Google Sheets settings.',
     };
   }
 
@@ -365,14 +365,14 @@ export async function syncAllToGoogleSheet(scriptUrl: string, payload: any): Pro
     const result = await res.json();
     return {
       success: result.success ?? true,
-      message: result.message || 'সমস্ত ডাটা সফলভাবে গুগল শিটে সিঙ্ক হয়েছে!',
+      message: result.message || 'All data successfully synchronized to Google Sheets!',
       timestamp: new Date().toLocaleTimeString(),
     };
   } catch (err: any) {
     console.error('Sync failed:', err);
     return {
       success: false,
-      message: 'সিঙ্ক করার সময় ত্রুটি ঘটেছে: ' + (err.message || 'Network Error'),
+      message: 'Error during sync: ' + (err.message || 'Network Error'),
     };
   }
 }

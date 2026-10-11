@@ -33,7 +33,7 @@ export const BrandsCategoriesModal: React.FC<BrandsCategoriesModalProps> = ({
 
   // New Brand input
   const [newBrandName, setNewBrandName] = useState('');
-  const [newBrandOrigin, setNewBrandOrigin] = useState('বাংলাদেশ');
+  const [newBrandOrigin, setNewBrandOrigin] = useState('Bangladesh');
 
   // New Category input
   const [newCategoryName, setNewCategoryName] = useState('');
@@ -87,10 +87,10 @@ export const BrandsCategoriesModal: React.FC<BrandsCategoriesModalProps> = ({
         <div className="bg-slate-800 p-4 border-b border-slate-700/80 flex items-center justify-between">
           <div>
             <h3 className="text-base sm:text-lg font-bold text-white">
-              ব্র্যান্ড, ক্যাটাগরি ও ইউনিট ম্যানেজমেন্ট
+              Brands, Categories & Units Management
             </h3>
             <p className="text-xs text-slate-400">
-              দোকানের নতুন ব্র্যান্ড, ক্যাটাগরি এবং পরিমাপের ইউনিট যুক্ত বা পরিবর্তন করুন
+              Manage manufacturers, product categories, and measurement units
             </p>
           </div>
           <button
@@ -112,7 +112,7 @@ export const BrandsCategoriesModal: React.FC<BrandsCategoriesModalProps> = ({
             }`}
           >
             <Tag className="w-3.5 h-3.5" />
-            <span>ব্র্যান্ড সমূহ ({brands.length})</span>
+            <span>Brands ({brands.length})</span>
           </button>
 
           <button
@@ -124,7 +124,7 @@ export const BrandsCategoriesModal: React.FC<BrandsCategoriesModalProps> = ({
             }`}
           >
             <Layers className="w-3.5 h-3.5" />
-            <span>ক্যাটাগরি সমূহ ({categories.length})</span>
+            <span>Categories ({categories.length})</span>
           </button>
 
           <button
@@ -136,7 +136,7 @@ export const BrandsCategoriesModal: React.FC<BrandsCategoriesModalProps> = ({
             }`}
           >
             <Scale className="w-3.5 h-3.5" />
-            <span>ইউনিট টাইপ ({units.length})</span>
+            <span>Unit Types ({units.length})</span>
           </button>
         </div>
 
@@ -146,19 +146,19 @@ export const BrandsCategoriesModal: React.FC<BrandsCategoriesModalProps> = ({
           {activeTab === 'brands' && (
             <div className="space-y-4">
               <form onSubmit={handleCreateBrand} className="bg-slate-800/80 p-3 rounded-xl border border-slate-700 space-y-3">
-                <span className="text-xs font-bold text-amber-400">নতুন ব্র্যান্ড যোগ করুন</span>
+                <span className="text-xs font-bold text-amber-400">Add New Brand</span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   <input
                     type="text"
                     required
-                    placeholder="ব্র্যান্ডের নাম (যেমন: লুমিনাস)"
+                    placeholder="Brand Name (e.g., Luminous)"
                     value={newBrandName}
                     onChange={(e) => setNewBrandName(e.target.value)}
                     className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
                   />
                   <input
                     type="text"
-                    placeholder="উৎপাদক দেশ / উৎস (ঐচ্ছিক)"
+                    placeholder="Origin Country / Source (Optional)"
                     value={newBrandOrigin}
                     onChange={(e) => setNewBrandOrigin(e.target.value)}
                     className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
@@ -170,13 +170,13 @@ export const BrandsCategoriesModal: React.FC<BrandsCategoriesModalProps> = ({
                     className="px-3.5 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-lg flex items-center gap-1"
                   >
                     <Plus className="w-3.5 h-3.5" />
-                    <span>ব্র্যান্ড সংরক্ষণ করুন</span>
+                    <span>Save Brand</span>
                   </button>
                 </div>
               </form>
 
               <div className="space-y-1.5">
-                <div className="text-xs font-semibold text-slate-400">বিদ্যমান ব্র্যান্ডের তালিকা:</div>
+                <div className="text-xs font-semibold text-slate-400">Existing Brands:</div>
                 <div className="divide-y divide-slate-800 border border-slate-800 rounded-xl overflow-hidden bg-slate-900">
                   {brands.map((b) => (
                     <div key={b.id} className="p-2.5 flex items-center justify-between text-xs hover:bg-slate-800/40">
@@ -189,7 +189,7 @@ export const BrandsCategoriesModal: React.FC<BrandsCategoriesModalProps> = ({
                       <button
                         onClick={() => onDeleteBrand(b.id)}
                         className="text-slate-500 hover:text-rose-400 p-1"
-                        title="মুছুন"
+                        title="Delete"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
@@ -204,19 +204,19 @@ export const BrandsCategoriesModal: React.FC<BrandsCategoriesModalProps> = ({
           {activeTab === 'categories' && (
             <div className="space-y-4">
               <form onSubmit={handleCreateCategory} className="bg-slate-800/80 p-3 rounded-xl border border-slate-700 space-y-3">
-                <span className="text-xs font-bold text-amber-400">নতুন ক্যাটাগরি যোগ করুন</span>
+                <span className="text-xs font-bold text-amber-400">Add New Category</span>
                 <div className="space-y-2">
                   <input
                     type="text"
                     required
-                    placeholder="ক্যাটাগরির নাম (যেমন: আইপিএস ব্যাটারি)"
+                    placeholder="Category Name (e.g., IPS Tubular Batteries)"
                     value={newCategoryName}
                     onChange={(e) => setNewCategoryName(e.target.value)}
                     className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
                   />
                   <input
                     type="text"
-                    placeholder="সংক্ষিপ্ত বিবরণ (ঐচ্ছিক)"
+                    placeholder="Short Description (Optional)"
                     value={newCategoryDesc}
                     onChange={(e) => setNewCategoryDesc(e.target.value)}
                     className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
@@ -228,13 +228,13 @@ export const BrandsCategoriesModal: React.FC<BrandsCategoriesModalProps> = ({
                     className="px-3.5 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-lg flex items-center gap-1"
                   >
                     <Plus className="w-3.5 h-3.5" />
-                    <span>ক্যাটাগরি সংরক্ষণ করুন</span>
+                    <span>Save Category</span>
                   </button>
                 </div>
               </form>
 
               <div className="space-y-1.5">
-                <div className="text-xs font-semibold text-slate-400">বিদ্যমান ক্যাটাগরি তালিকা:</div>
+                <div className="text-xs font-semibold text-slate-400">Existing Categories:</div>
                 <div className="divide-y divide-slate-800 border border-slate-800 rounded-xl overflow-hidden bg-slate-900">
                   {categories.map((c) => (
                     <div key={c.id} className="p-2.5 flex items-center justify-between text-xs hover:bg-slate-800/40">
@@ -247,7 +247,7 @@ export const BrandsCategoriesModal: React.FC<BrandsCategoriesModalProps> = ({
                       <button
                         onClick={() => onDeleteCategory(c.id)}
                         className="text-slate-500 hover:text-rose-400 p-1"
-                        title="মুছুন"
+                        title="Delete"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
@@ -262,19 +262,19 @@ export const BrandsCategoriesModal: React.FC<BrandsCategoriesModalProps> = ({
           {activeTab === 'units' && (
             <div className="space-y-4">
               <form onSubmit={handleCreateUnit} className="bg-slate-800/80 p-3 rounded-xl border border-slate-700 space-y-3">
-                <span className="text-xs font-bold text-amber-400">নতুন ইউনিট টাইপ যোগ করুন</span>
+                <span className="text-xs font-bold text-amber-400">Add New Unit Type</span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   <input
                     type="text"
                     required
-                    placeholder="ইউনিটের নাম (যেমন: পিস বা মিটার)"
+                    placeholder="Unit Name (e.g., Piece or Meter)"
                     value={newUnitName}
                     onChange={(e) => setNewUnitName(e.target.value)}
                     className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
                   />
                   <input
                     type="text"
-                    placeholder="কোড / সিম্বল (যেমন: Pcs, Mtr)"
+                    placeholder="Code / Symbol (e.g., Pcs, Mtr, Ah)"
                     value={newUnitCode}
                     onChange={(e) => setNewUnitCode(e.target.value)}
                     className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
@@ -286,13 +286,13 @@ export const BrandsCategoriesModal: React.FC<BrandsCategoriesModalProps> = ({
                     className="px-3.5 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-lg flex items-center gap-1"
                   >
                     <Plus className="w-3.5 h-3.5" />
-                    <span>ইউনিট সংরক্ষণ করুন</span>
+                    <span>Save Unit</span>
                   </button>
                 </div>
               </form>
 
               <div className="space-y-1.5">
-                <div className="text-xs font-semibold text-slate-400">বিদ্যমান ইউনিট তালিকা:</div>
+                <div className="text-xs font-semibold text-slate-400">Existing Unit Types:</div>
                 <div className="divide-y divide-slate-800 border border-slate-800 rounded-xl overflow-hidden bg-slate-900">
                   {units.map((u) => (
                     <div key={u.id} className="p-2.5 flex items-center justify-between text-xs hover:bg-slate-800/40">
@@ -305,7 +305,7 @@ export const BrandsCategoriesModal: React.FC<BrandsCategoriesModalProps> = ({
                       <button
                         onClick={() => onDeleteUnit(u.id)}
                         className="text-slate-500 hover:text-rose-400 p-1"
-                        title="মুছুন"
+                        title="Delete"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
@@ -323,7 +323,7 @@ export const BrandsCategoriesModal: React.FC<BrandsCategoriesModalProps> = ({
             onClick={onClose}
             className="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold rounded-lg transition"
           >
-            বন্ধ করুন
+            Close
           </button>
         </div>
       </div>

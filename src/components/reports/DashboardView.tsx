@@ -92,10 +92,10 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       {/* Title */}
       <div>
         <h2 className="text-xl sm:text-2xl font-black text-white">
-          ব্যবসার সার্বিক ড্যাশবোর্ড ও রিপোর্ট
+          Business Dashboard & Reports
         </h2>
         <p className="text-xs sm:text-sm text-slate-400">
-          আজকের বিক্রি, লাভ-লোকসান, স্ক্র্যাপ ব্যাটারি এবং বকেয়া খাতার সামগ্রিক হিসাব
+          Today's sales, profit & loss, scrap battery valuation, and supplier ledger overview
         </p>
       </div>
 
@@ -104,17 +104,17 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         {/* Today's Sales */}
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between">
           <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-semibold">আজকের মোট বিক্রি</span>
+            <span className="text-xs font-semibold">Today's Sales</span>
             <div className="p-2 bg-amber-500/10 text-amber-400 rounded-xl">
               <ShoppingCart className="w-5 h-5" />
             </div>
           </div>
           <div className="mt-3">
             <div className="text-2xl font-black text-amber-400">
-              {todaySalesAmount.toLocaleString()} ৳
+              {todaySalesAmount.toLocaleString()} Tk
             </div>
             <div className="text-xs text-slate-400 mt-1 flex items-center gap-1">
-              <span>{todayInvoices.length} টি ক্যাশ মেমো</span>
+              <span>{todayInvoices.length} cash memos</span>
             </div>
           </div>
         </div>
@@ -122,17 +122,17 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         {/* Month's Sales */}
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between">
           <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-semibold">চলতি মাসের বিক্রি</span>
+            <span className="text-xs font-semibold">Monthly Sales</span>
             <div className="p-2 bg-emerald-500/10 text-emerald-400 rounded-xl">
               <TrendingUp className="w-5 h-5" />
             </div>
           </div>
           <div className="mt-3">
             <div className="text-2xl font-black text-emerald-400">
-              {monthSalesAmount.toLocaleString()} ৳
+              {monthSalesAmount.toLocaleString()} Tk
             </div>
             <div className="text-xs text-slate-400 mt-1">
-              <span>চলতি মাসে {monthInvoices.length} টি বিক্রয় সম্পন্ন</span>
+              <span>{monthInvoices.length} sales completed this month</span>
             </div>
           </div>
         </div>
@@ -140,17 +140,17 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         {/* Scrap Battery Profit */}
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between">
           <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-semibold">স্ক্র্যাপ ব্যাটারি থেকে নিট লাভ</span>
+            <span className="text-xs font-semibold">Net Scrap Battery Profit</span>
             <div className="p-2 bg-blue-500/10 text-blue-400 rounded-xl">
               <BatteryCharging className="w-5 h-5" />
             </div>
           </div>
           <div className="mt-3">
             <div className="text-2xl font-black text-blue-400">
-              +{totalScrapProfit.toLocaleString()} ৳
+              +{totalScrapProfit.toLocaleString()} Tk
             </div>
             <div className="text-xs text-slate-400 mt-1">
-              <span>স্টকে {inStockScrap.length}টি ব্যাটারি ({inStockScrapVal.toLocaleString()}৳)</span>
+              <span>{inStockScrap.length} units in stock ({inStockScrapVal.toLocaleString()} Tk)</span>
             </div>
           </div>
         </div>
@@ -158,17 +158,17 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         {/* Customer Dues */}
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between">
           <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-semibold">কাস্টমার বাকি পাওনা</span>
+            <span className="text-xs font-semibold">Customer Receivables</span>
             <div className="p-2 bg-rose-500/10 text-rose-400 rounded-xl">
               <Users className="w-5 h-5" />
             </div>
           </div>
           <div className="mt-3">
             <div className="text-2xl font-black text-rose-400">
-              {totalCustomerDues.toLocaleString()} ৳
+              {totalCustomerDues.toLocaleString()} Tk
             </div>
             <div className="text-xs text-slate-400 mt-1">
-              <span>সাপ্লায়ার দেনা: {totalSupplierDues.toLocaleString()} ৳</span>
+              <span>Supplier Payables: {totalSupplierDues.toLocaleString()} Tk</span>
             </div>
           </div>
         </div>
@@ -180,16 +180,16 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <div className="bg-gradient-to-br from-emerald-950/60 to-slate-900 border border-emerald-800/40 rounded-2xl p-4 space-y-2">
           <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm">
             <BatteryCharging className="w-5 h-5" />
-            <span>স্ক্র্যাপ ব্যাটারি হিসাব</span>
+            <span>Scrap Battery Inventory</span>
           </div>
           <p className="text-xs text-emerald-200/90 leading-relaxed">
-            পুরাতন ব্যাটারি স্টকে জমা হয়ে পাইকারি বিক্রির হিসাব চালু রয়েছে।
+            Old batteries stored in stock ready for bulk wholesale liquidation.
           </p>
           <button
             onClick={() => onNavigate('scrap')}
-            className="text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1 pt-1"
+            className="text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1 pt-1 cursor-pointer"
           >
-            <span>স্ক্র্যাপ স্টক ম্যানেজ করুন</span>
+            <span>Manage Scrap Stock</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -198,19 +198,19 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <div className="bg-gradient-to-br from-teal-950/60 to-slate-900 border border-teal-800/40 rounded-2xl p-4 space-y-2">
           <div className="flex items-center gap-2 text-teal-300 font-bold text-sm">
             <Percent className="w-5 h-5 text-teal-400" />
-            <span>সাপ্লায়ার কমিশন ছাড়</span>
+            <span>Supplier Monthly Rebates</span>
           </div>
           <div className="text-xl font-bold text-white">
-            {totalCommissionEarned.toLocaleString()} ৳
+            {totalCommissionEarned.toLocaleString()} Tk
           </div>
           <p className="text-xs text-slate-400">
-            মাসিক ক্রয় টার্গেট ও রিবেট থেকে বকেয়া মাইনাস হয়েছে।
+            Deducted from supplier balances according to monthly turnover targets.
           </p>
           <button
             onClick={() => onNavigate('suppliers')}
-            className="text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1 pt-1"
+            className="text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1 pt-1 cursor-pointer"
           >
-            <span>কমিশন ও লেজার দেখুন</span>
+            <span>View Commission & Ledger</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -219,19 +219,19 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-2">
           <div className="flex items-center gap-2 text-rose-400 font-bold text-sm">
             <Receipt className="w-5 h-5" />
-            <span>দোকানের মোট খরচ</span>
+            <span>Shop Operating Expenses</span>
           </div>
           <div className="text-xl font-bold text-white">
-            {totalExpenses.toLocaleString()} ৳
+            {totalExpenses.toLocaleString()} Tk
           </div>
           <p className="text-xs text-slate-400">
-            কর্মচারী বেতন, দোকান ভাড়া ও বিদ্যুৎ বিল খরচ।
+            Staff salaries, shop rent, electricity, and maintenance overhead.
           </p>
           <button
             onClick={() => onNavigate('expenses')}
-            className="text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1 pt-1"
+            className="text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1 pt-1 cursor-pointer"
           >
-            <span>খরচের খাতা দেখুন</span>
+            <span>View Expense Book</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -240,19 +240,19 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-2">
           <div className="flex items-center gap-2 text-amber-400 font-bold text-sm">
             <Truck className="w-5 h-5" />
-            <span>সাপ্লায়ার পাওনা বকেয়া</span>
+            <span>Supplier Balance Due</span>
           </div>
           <div className="text-xl font-bold text-white">
-            {totalSupplierDues.toLocaleString()} ৳
+            {totalSupplierDues.toLocaleString()} Tk
           </div>
           <p className="text-xs text-slate-400">
-            কমিশন সমন্বয়ের পর কোম্পানিকে নিট প্রদেয় বিল।
+            Net bill payable to companies after rebate discount deductions.
           </p>
           <button
             onClick={() => onNavigate('suppliers')}
-            className="text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1 pt-1"
+            className="text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1 pt-1 cursor-pointer"
           >
-            <span>সাপ্লায়ার লেজার দেখুন</span>
+            <span>View Supplier Ledger</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -265,13 +265,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           <div className="flex items-center justify-between">
             <h3 className="font-bold text-white text-base flex items-center gap-2">
               <ShoppingCart className="w-4 h-4 text-amber-400" />
-              <span>সাম্প্রতিক বিক্রয় মেমো (Recent Sales)</span>
+              <span>Recent Sales Memos</span>
             </h3>
             <button
               onClick={() => onNavigate('pos')}
-              className="text-xs text-amber-400 hover:underline"
+              className="text-xs text-amber-400 hover:underline cursor-pointer"
             >
-              + নতুন সেল
+              + New Sale
             </button>
           </div>
 
@@ -296,21 +296,21 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   </div>
                   {inv.scrapBatteries && inv.scrapBatteries.length > 0 && (
                     <div className="text-[10px] text-amber-400 font-medium mt-0.5">
-                      ✓ {inv.scrapBatteries.length}টি পুরাতন ব্যাটারি এক্সচেঞ্জ সমন্বয়কৃত
+                      ✓ {inv.scrapBatteries.length} old batteries exchanged & deducted
                     </div>
                   )}
                 </div>
 
                 <div className="text-right shrink-0">
                   <div className="font-black text-amber-300 text-sm">
-                    {inv.netTotal.toLocaleString()} ৳
+                    {inv.netTotal.toLocaleString()} Tk
                   </div>
                   <button
                     onClick={() => onViewInvoice(inv)}
-                    className="mt-1 px-2.5 py-1 bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 border border-amber-500/30 rounded text-[11px] font-semibold flex items-center gap-1"
+                    className="mt-1 px-2.5 py-1 bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 border border-amber-500/30 rounded text-[11px] font-semibold flex items-center gap-1 cursor-pointer"
                   >
                     <Eye className="w-3 h-3" />
-                    <span>রিসিট</span>
+                    <span>Receipt</span>
                   </button>
                 </div>
               </div>
@@ -323,20 +323,20 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           <div className="flex items-center justify-between">
             <h3 className="font-bold text-white text-base flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 text-rose-400" />
-              <span>লো স্টক সতর্কবার্তা (Low Stock Alerts)</span>
+              <span>Low Stock Alerts</span>
             </h3>
             <button
               onClick={() => onNavigate('inventory')}
-              className="text-xs text-amber-400 hover:underline"
+              className="text-xs text-amber-400 hover:underline cursor-pointer"
             >
-              সব পণ্য দেখুন
+              View All Products
             </button>
           </div>
 
           {lowStockProducts.length === 0 ? (
             <div className="h-44 flex flex-col items-center justify-center text-center text-slate-500">
               <CheckCircle className="w-8 h-8 text-emerald-500 mb-1" />
-              <p className="text-xs text-slate-300 font-medium">সমস্ত পণ্যের পর্যাপ্ত স্টক আছে!</p>
+              <p className="text-xs text-slate-300 font-medium">All products have sufficient stock!</p>
             </div>
           ) : (
             <div className="space-y-2">
@@ -348,7 +348,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   <div>
                     <h5 className="font-bold text-white">{p.name}</h5>
                     <div className="text-[11px] text-slate-400 mt-0.5">
-                      ব্র্যান্ড: {p.brand} • রিঅর্ডার লেভেল: {p.minStockAlert} {p.unit}
+                      Brand: {p.brand} • Reorder Alert: {p.minStockAlert} {p.unit}
                     </div>
                   </div>
 
@@ -360,14 +360,14 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                           : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
                       }`}
                     >
-                      {p.stock <= 0 ? 'স্টক শেষ' : `${p.stock} ${p.unit} বাকি`}
+                      {p.stock <= 0 ? 'Out of Stock' : `${p.stock} ${p.unit} remaining`}
                     </span>
                     <div className="mt-1">
                       <button
                         onClick={() => onNavigate('suppliers')}
-                        className="text-[11px] text-amber-400 hover:underline font-semibold"
+                        className="text-[11px] text-amber-400 hover:underline font-semibold cursor-pointer"
                       >
-                        সাপ্লায়ার অর্ডার করুন
+                        Order from Supplier
                       </button>
                     </div>
                   </div>

@@ -9,7 +9,6 @@ import {
   Receipt,
   FileSpreadsheet,
   Settings,
-  AlertTriangle,
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -28,68 +27,68 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const menuItems = [
     {
       id: 'pos',
-      label: 'পজ সেলস কাউন্টার',
-      subtitle: 'POS Billing & Sales',
+      label: 'POS Sales Counter',
+      subtitle: 'POS Billing & Checkout',
       icon: ShoppingCart,
       badge: null,
       highlight: true,
     },
     {
       id: 'scrap',
-      label: 'পুরাতন স্ক্র্যাপ ব্যাটারি',
+      label: 'Old Scrap Batteries',
       subtitle: 'Trade-in & Scrap Stock',
       icon: BatteryCharging,
-      badge: scrapStockCount > 0 ? `${scrapStockCount}টি মজুদ` : null,
+      badge: scrapStockCount > 0 ? `${scrapStockCount} In Stock` : null,
       badgeColor: 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30',
     },
     {
       id: 'inventory',
-      label: 'পণ্য ও স্টক ইনভেন্টরি',
+      label: 'Products & Inventory',
       subtitle: 'Products, Brands & Stock',
       icon: Package,
-      badge: lowStockCount > 0 ? `${lowStockCount} লো স্টক` : null,
+      badge: lowStockCount > 0 ? `${lowStockCount} Low Stock` : null,
       badgeColor: 'bg-rose-500/20 text-rose-400 border border-rose-500/30',
     },
     {
       id: 'suppliers',
-      label: 'সাপ্লায়ার ও লেজার শিট',
-      subtitle: 'Purchases & Supplier Dues',
+      label: 'Suppliers & Ledger',
+      subtitle: 'Purchases, Dues & Rebates',
       icon: Truck,
       badge: null,
     },
     {
       id: 'customers',
-      label: 'কাস্টমার ও বাকি খাতা',
-      subtitle: 'Customer Dues & Ledger',
+      label: 'Customers & Receivables',
+      subtitle: 'Customer Dues & History',
       icon: Users,
       badge: null,
     },
     {
       id: 'expenses',
-      label: 'দোকানের খরচ সমূহ',
-      subtitle: 'Daily Shop Expenses',
+      label: 'Daily Shop Expenses',
+      subtitle: 'Store Overhead & Costs',
       icon: Receipt,
       badge: null,
     },
     {
       id: 'reports',
-      label: 'ড্যাশবোর্ড ও রিপোর্ট',
+      label: 'Reports & Dashboard',
       subtitle: 'Analytics & Profit Overview',
       icon: LayoutDashboard,
       badge: null,
     },
     {
       id: 'sheets',
-      label: 'গুগল শিট ডাটাবেস',
-      subtitle: 'Apps Script & Live Sync',
+      label: 'Google Sheets Sync',
+      subtitle: 'Apps Script Database',
       icon: FileSpreadsheet,
       badge: 'Live Sync',
       badgeColor: 'bg-blue-500/20 text-blue-400 border border-blue-500/30',
     },
     {
       id: 'settings',
-      label: 'দোকানের সেটিংস',
-      subtitle: 'Shop Info & Backup',
+      label: 'Store Settings',
+      subtitle: 'Profile, Terms & Backup',
       icon: Settings,
       badge: null,
     },
@@ -156,10 +155,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <div className="p-3 m-3 bg-slate-800/70 border border-slate-700/60 rounded-xl text-xs text-slate-400 hidden md:block">
         <div className="flex items-center gap-1.5 text-amber-400 font-semibold mb-1">
           <BatteryCharging className="w-3.5 h-3.5" />
-          <span>পুরাতন ব্যাটারি পলিসি</span>
+          <span>Battery Trade-in Policy</span>
         </div>
         <p className="text-[11px] text-slate-300 leading-relaxed">
-          গ্রাহকের পুরাতন ব্যাটারি মাইনাস করলেও নতুন ব্যাটারির ক্রয়/বিক্রয় মূল্য অক্ষত থাকবে। স্ক্র্যাপ ব্যাটারি স্টকে জমা হয়ে পাইকারি বিক্রির হিসাব ঠিক রাখবে।
+          Customer old batteries are credited against bills without lowering new battery selling prices, maintaining accurate revenue and scrap resale accounting.
         </p>
       </div>
     </aside>

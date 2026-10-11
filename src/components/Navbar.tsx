@@ -5,7 +5,6 @@ import {
   CheckCircle2,
   RefreshCw,
   Clock,
-  Plus,
   ShoppingCart,
   Phone,
   AlertCircle,
@@ -36,7 +35,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     const updateTime = () => {
       const now = new Date();
       setCurrentTime(
-        now.toLocaleTimeString('bn-BD', {
+        now.toLocaleTimeString('en-US', {
           hour: '2-digit',
           minute: '2-digit',
           second: '2-digit',
@@ -44,10 +43,10 @@ export const Navbar: React.FC<NavbarProps> = ({
         })
       );
       setCurrentDate(
-        now.toLocaleDateString('bn-BD', {
-          weekday: 'long',
+        now.toLocaleDateString('en-US', {
+          weekday: 'short',
           year: 'numeric',
-          month: 'long',
+          month: 'short',
           day: 'numeric',
         })
       );
@@ -84,7 +83,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         </div>
 
-        {/* Live Date/Time & Quick Status */}
+        {/* Live Date/Time */}
         <div className="hidden lg:flex items-center gap-4 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/60 text-xs">
           <div className="flex items-center gap-1.5 text-slate-300">
             <Clock className="w-3.5 h-3.5 text-amber-400" />
@@ -104,11 +103,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                 ? 'bg-emerald-950/40 text-emerald-300 border-emerald-500/40 hover:bg-emerald-900/50'
                 : 'bg-amber-950/40 text-amber-300 border-amber-500/40 hover:bg-amber-900/50'
             }`}
-            title="গুগল শিট সিঙ্ক সেটিংস খুলুন"
+            title="Configure Google Sheets sync"
           >
             <Cloud className={`w-3.5 h-3.5 ${isConnected ? 'text-emerald-400' : 'text-amber-400'}`} />
             <span className="hidden md:inline">
-              {isConnected ? 'গুগল শিট কানেক্টেড' : 'গুগল শিট সেটআপ'}
+              {isConnected ? 'Sheets Connected' : 'Connect Sheets'}
             </span>
             {isConnected ? (
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
@@ -123,10 +122,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={onSync}
               disabled={isSyncing}
               className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg text-xs font-medium transition disabled:opacity-50"
-              title="গুগল শিটে ডাটা সিঙ্ক করুন"
+              title="Sync data with Google Sheets"
             >
               <RefreshCw className={`w-3.5 h-3.5 text-amber-400 ${isSyncing ? 'animate-spin' : ''}`} />
-              <span className="hidden sm:inline">সিঙ্ক করুন</span>
+              <span className="hidden sm:inline">Sync Now</span>
             </button>
           )}
 
@@ -140,12 +139,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             }`}
           >
             <ShoppingCart className="w-4 h-4" />
-            <span>নতুন সেল (POS)</span>
+            <span>New Sale (POS)</span>
           </button>
         </div>
       </div>
 
-      {/* Sync Status Banner if recently synced */}
+      {/* Sync Status Banner */}
       {syncStatus && (
         <div
           className={`py-1 px-4 text-xs text-center border-t ${
